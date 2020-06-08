@@ -41,13 +41,13 @@ public class LibroDAOImpl implements LibroDAO {
 			while (rs.next()) {
 				// recuperamos columnas del rs(resultSet)
 				int id = rs.getInt("id");
-				String nombre = rs.getString("titulo");
+				String titulo = rs.getString("titulo");
 
 				// Creamos el objeto con lo obtenido en rs
 
 				Libro libro = new Libro();
 				libro.setId(id);
-				libro.setNombre(nombre);
+				libro.setTitulo(titulo);
 
 				// guardar en lista
 				registros.add(libro);

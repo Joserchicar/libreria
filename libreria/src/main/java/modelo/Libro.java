@@ -3,13 +3,13 @@ package modelo;
 public class Libro {
 	
 		private int id;
-		private String nombre;
+		private String titulo;
 		
 	
 	public Libro() {
 		super();
 		this.id = 0;
-		this.nombre = "";
+		this.titulo = "";
 		
 	}
 
@@ -24,19 +24,19 @@ public class Libro {
 	}
 
 
-	public String getNombre() {
-		return nombre;
+	public String getTitulo() {
+		return titulo;
 	}
 
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setTitulo(String titulo) {
+		this.titulo= titulo;
 	}
 
 
 	@Override
 	public String toString() {
-		return "libro [id=" + id + ", nombre=" + nombre + "]";
+		return "libro [id=" + id + ", titulo=" + titulo + "]";
 	}
 
 }
