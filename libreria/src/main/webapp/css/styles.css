@@ -1,0 +1,16 @@
+/* Custom Css
+   @author: JRC
+   @version: 1.0
+   @github: .......
+************************************************************/
+
+main {
+    margin-top: 4rem;
+    min-height: 80vh;
+}
+
+td {
+    vertical-align: middle !important;    
+}
+
+
