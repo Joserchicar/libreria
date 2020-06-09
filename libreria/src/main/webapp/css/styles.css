@@ -9,6 +9,9 @@ main {
     min-height: 80vh;
 }
 
+footer {
+    color:yellows;
+
 td {
     vertical-align: middle !important;    
 }

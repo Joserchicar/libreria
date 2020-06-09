@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-
-
 import modelo.Libro;
 import modelo.conexion.ConnectionManager;
 
@@ -33,6 +31,7 @@ public class LibroDAOImpl implements LibroDAO {
 
 		// Execute Query
 		String sql = "SELECT id, titulo FROM libro ORDER BY id DESC;";
+
 		try (Connection conexion = ConnectionManager.getConnection();
 				PreparedStatement pst = conexion.prepareStatement(sql);
 				ResultSet rs = pst.executeQuery();
@@ -76,9 +75,43 @@ public class LibroDAOImpl implements LibroDAO {
 	}
 
 	@Override
-	public Libro insert(Libro p) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Libro insert(Libro libro) throws Exception {
+		
+		ArrayList<Libro>registros = new ArrayList<Libro>();
+
+		// Execute Query
+		String sql = " INSERT INTO libro (titulo) VALUES ( ? ) ; ";
+
+		try (Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery();
+
+		) {
+			while (rs.next()) {
+				// recuperamos columnas del rs(resultSet)
+				int id = rs.getInt("id");
+				String titulo = rs.getString("titulo");
+
+				// Creamos el objeto con lo obtenido en rs
+
+				libro = new Libro();
+				libro.setId(id);
+				libro.setTitulo(titulo);
+
+				// guardar en lista
+				registros.add(libro);
+
+			} // while
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+		return libro;
+
+		
 	}
 
 	@Override
@@ -93,4 +126,3 @@ public class LibroDAOImpl implements LibroDAO {
 		return null;
 	}
 }
-	

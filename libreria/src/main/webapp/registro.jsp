@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -38,50 +37,54 @@
 					principal</a></li>
 			<li class="nav-item"><a class="nav-link" href="inicio">listado
 					de libros</a></li>
-			<li class="nav-item"><a class="nav-link" href="registro.jsp">Registro</a></li>
+			<li class="nav-item"><a class="nav-link" href="registro.jsp">registro</a></li>
 		</ul>
 	</nav>
 	<br>
 
 	<main>
-		<!-- tabla listado libros -->
-		<table class="tabla table table-striped">
-			<thead>
-				<tr>
-					<td>Id</td>
-					<td>Titulo</td>
+		<p style="color: red">${mensaje}</p>
 
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${libros}" var="l">
-					<tr>
-						<td>${l.id}</td>
-						<td>${l.titulo}</td>
 
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-		</main>
-<div>
-	<!-- pie de pagina-->
-	<footer class="container">
-		<div>
-			<a href="#"> <i class="fab fa-facebook"></i></a> <a href="#"><i
-				class="fab fa-twitter-square"></i></a>
-		</div>
-		<div>
-			<a href="#">politica de privacidad</a> <a href="#">Contacto</a>
-		</div>
+		<form action="registro" method="post">
+			<div class="form-group">
+				<label for="id">id </label> <input type="text" name="titulo"
+					Value="${libro.id}" class="form-control" readonly>
+			</div>
+			<br>
+			<div class="form-group">
+				<label for="titulo">titulo del libro</label> <input type="text"
+					name="titulo" Value="${libro.titulo}" class="form-control"
+					placeholder="Introduce el Titulo" id="titulo">
+			</div>
+			<br>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
 
-		<p>&copy; Libreria 2020</p>
-	</footer>
 
-</div>
-<a href="#top"class="btn btn-warning position-fixed fixed-bottom d-block d-sm-none">Top</a>
+
+
+
+	</main>
+	<div>
+		<!-- pie de pagina-->
+		<footer class="container">
+			<div>
+				<a href="#"> <i class="fab fa-facebook"></i></a> <a href="#"><i
+					class="fab fa-twitter-square"></i></a>
+			</div>
+			<div>
+				<a href="#">politica de privacidad</a> <a href="#">Contacto</a>
+			</div>
+
+			<p>&copy; Libreria 2020</p>
+		</footer>
+
+	</div>
 	
-	
-	
+	<a href="#top"class="btn btn-warning position-fixed fixed-bottom d-block d-sm-none">Top</a>
+
+
+
 </body>
 </html>
