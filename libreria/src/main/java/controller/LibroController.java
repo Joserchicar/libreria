@@ -46,7 +46,7 @@ public class LibroController extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		request.setAttribute("libro", libros);
+		request.setAttribute("libros", libros);
 
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 
