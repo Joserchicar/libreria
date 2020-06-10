@@ -9,10 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import modelo.Libro;
 import modelo.LibroDAOImpl;
-
 
 /**
  * Servlet implementation class LibroController
@@ -35,14 +33,14 @@ public class LibroController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		LibroDAOImpl dao = LibroDAOImpl.getInstance();
 
 		ArrayList<Libro> libros = new ArrayList<Libro>();
 		try {
 			libros = dao.getAll();
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 

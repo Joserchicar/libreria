@@ -14,15 +14,15 @@ public class ConnectionManager {
 	
 	public static Connection getConnection() throws SQLException, ClassNotFoundException {
 		
-		Connection con = null;
+		Connection conexion = null;
 		
 		// comprobar que tengamos el .jar de MySQL
 		Class.forName("com.mysql.jdbc.Driver");
 		
 		//establecer conexion
-		con = DriverManager.getConnection(URL, USUARIO, PASS);
+		conexion = DriverManager.getConnection(URL, USUARIO, PASS);
 		
-		return con;
+		return conexion;
 	};
 	
 

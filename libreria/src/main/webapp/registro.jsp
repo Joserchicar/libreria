@@ -49,7 +49,7 @@
 		<form action="registro" method="post">
 			<div class="form-group">
 				<label for="id">id </label> <input type="text" name="titulo"
-					Value="${libro.id}" class="form-control" readonly>
+					Value="${libro.id}" class="form-control" >
 			</div>
 			<br>
 			<div class="form-group">
@@ -81,8 +81,9 @@
 		</footer>
 
 	</div>
-	
-	<a href="#top"class="btn btn-warning position-fixed fixed-bottom d-block d-sm-none">Top</a>
+
+	<a href="#top"
+		class="btn btn-warning position-fixed fixed-bottom d-block d-sm-none">Top</a>
 
 
 

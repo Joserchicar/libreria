@@ -76,11 +76,11 @@ public class LibroDAOImpl implements LibroDAO {
 
 	@Override
 	public Libro insert(Libro libro) throws Exception {
-		
-		ArrayList<Libro>registros = new ArrayList<Libro>();
+
+		ArrayList<Libro> registros = new ArrayList<Libro>();
 
 		// Execute Query
-		String sql = " INSERT INTO libro (titulo) VALUES ( ? ) ; ";
+		String sql = " INSERT INTO libro (titulo) VALUES ( ? ); ";
 
 		try (Connection conexion = ConnectionManager.getConnection();
 				PreparedStatement pst = conexion.prepareStatement(sql);
@@ -111,7 +111,6 @@ public class LibroDAOImpl implements LibroDAO {
 
 		return libro;
 
-		
 	}
 
 	@Override

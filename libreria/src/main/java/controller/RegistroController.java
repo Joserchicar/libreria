@@ -13,31 +13,32 @@ import modelo.LibroDAOImpl;
 /**
  * Servlet implementation class RegistroController
  */
-@WebServlet("/Registro")
+@WebServlet("/registro")
 public class RegistroController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public RegistroController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public RegistroController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-		
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		try {
-			LibroDAOImpl dao = LibroDAOImpl.getInstance();		
-			Libro libro = new Libro();		
+			LibroDAOImpl dao = LibroDAOImpl.getInstance();
+			Libro libro = new Libro();
 			request.setAttribute("libro", libro);
 
 		} catch (Exception e) {
-			request.setAttribute("danger","Lo sentimos fallo en GET " + e.getMessage());
+			request.setAttribute("danger", "Lo sentimos fallo en GET " + e.getMessage());
 			e.printStackTrace();
 
 		} finally {
@@ -47,55 +48,62 @@ public class RegistroController extends HttpServlet {
 		}
 
 	}
+
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 *
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		try {
-			
+
 			// recoger los valores del formulario
 			String idParametro = request.getParameter("id");
 			String titulo = request.getParameter("titulo");
+			int id = Integer.parseInt(idParametro);
 			
-			//Crear objeto y parametros
-			Libro libro= new Libro();
-			libro.setId(Integer.parseInt(idParametro));
-			libro.setTitulo(titulo);
-			
-			//DAO
+			// DAO
 			LibroDAOImpl dao = LibroDAOImpl.getInstance();
+			
+			
+			// Crear objeto y parametros
+			Libro libro = new Libro();
+		    libro.setId(id);
+			libro.setTitulo(titulo);
+
+			
 
 			if (titulo != null && titulo.length() > 2 && titulo.length() <= 100) {
-				//vuelve al inicio y  vuelve para listar los libros (redirecciona)
-				dao.insert(libro);
-				request.getSession().setAttribute("mensaje", "Libro registrado con exito");
-				response.sendRedirect("index.jsp");
+				// vuelve al inicio y vuelve para listar los libros (redirecciona)
 
-			} else {
-				dao.update(libro);
-				//ir a la vista del registro de libros
-				request.setAttribute("libro", libro ); 
-				request.setAttribute("mensaje", "El titulo debe tener entre 2 y 100 caracteres");			
-				request.getRequestDispatcher("registro.jsp").forward(request, response);
-			}//if
+				if (id==0) {
 
+					dao.insert(libro);
+
+					request.getSession().setAttribute("mensaje", "Libro registrado con exito");
+					response.sendRedirect("index.jsp");
+					
+				} else {
+					dao.update(libro);
+					// ir a la vista del registro de libros
+					request.setAttribute("libro", libro);
+					request.setAttribute("mensaje", "El libro ya existe");
+					request.getRequestDispatcher("registro.jsp").forward(request, response);
+				} // if
+			}else {
+				request.setAttribute("mensaje", "El titulo debe tener entre 2 y 100 caracteres");
+			}
 		} catch (Exception e) {
-			request.setAttribute("mensaje"," Lo sentimos pero hemos tenido una Excepcion " + e.getMessage());
+			request.setAttribute("mensaje", " Lo sentimos pero hemos tenido una Excepcion " + e.getMessage());
 			e.printStackTrace();
-			
+
 		} // trycatch
 
-			// ir a la nueva vista o jsp
-			request.getRequestDispatcher("registro.jsp").forward(request, response);
+		// ir a la nueva vista o jsp
+		request.getRequestDispatcher("index.jsp").forward(request, response);
 
-		}
+	}
 
-	}// dopost
-		
-		
-		
-		
-		
-		
-	
+}// dopost
