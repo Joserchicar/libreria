@@ -61,6 +61,8 @@
 						<td>${l.id}</td>
 						<td>${l.titulo}</td>
 						
+						
+						
 					</tr>
 				</c:forEach>
 			</tbody>
