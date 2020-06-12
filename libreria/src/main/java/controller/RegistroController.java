@@ -41,8 +41,14 @@ public class RegistroController extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
-			LibroDAOImpl dao = LibroDAOImpl.getInstance();
+			String parametroId = request.getParameter("id");
 			Libro libro = new Libro();
+			if (parametroId != null) {
+				int id = Integer.parseInt(parametroId);
+				LibroDAOImpl dao = LibroDAOImpl.getInstance();
+				libro = dao.getById(id);
+			}
+
 			request.setAttribute("libro", libro);
 
 		} catch (Exception e) {
@@ -64,6 +70,8 @@ public class RegistroController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// Crear objeto
+		Libro libro = new Libro();
 
 		try {
 
@@ -75,8 +83,8 @@ public class RegistroController extends HttpServlet {
 			// DAO
 			LibroDAOImpl dao = LibroDAOImpl.getInstance();
 
-			// Crear objeto y parametros
-			Libro libro = new Libro();
+			//  parametros
+			
 			libro.setId(id);
 			libro.setTitulo(titulo);
 
@@ -88,7 +96,7 @@ public class RegistroController extends HttpServlet {
 					dao.insert(libro);
 
 					request.getSession().setAttribute("mensaje", "Libro registrado con exito");
-
+					request.setAttribute("libro", libro);
 				} else {
 					dao.update(libro);
 
@@ -108,7 +116,9 @@ public class RegistroController extends HttpServlet {
 			request.setAttribute("mensaje", " Lo sentimos pero hemos tenido una Excepcion " + e.getMessage());
 			e.printStackTrace();
 		} finally {
+
 			// ir a la nueva vista o jsp
+
 			request.getRequestDispatcher("registro.jsp").forward(request, response);
 		} // trycatch
 

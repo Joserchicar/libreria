@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
 import modelo.Libro;
 import modelo.conexion.ConnectionManager;
 
@@ -27,15 +26,23 @@ public class LibroDAOImpl implements LibroDAO {
 		return INSTANCE;
 	}
 
+	// SQL
+	private final String SQL_GET_ALL = "SELECT id, titulo FROM libro ORDER BY id DESC;";
+	private final String SQL_GET_BY_ID = "SELECT id, titulo FROM libro WHERE id=?;";
+
+	private final String SQL_INSERT = " INSERT INTO libro (titulo) VALUES ( ? ); ";
+	private final String SQL_UPDATE = "UPDATE libro SET nombre=? WHERE id=?; ";
+
+	private final String SQL_DELETE = " DELETE FROM libro WHERE id = ? ; ";
+
 	@Override
 	public ArrayList<Libro> getAll() throws Exception {
 		ArrayList<Libro> registros = new ArrayList<Libro>();
 
 		// Execute Query
-		String sql = "SELECT id, titulo FROM libro ORDER BY id DESC;";
 
 		try (Connection conexion = ConnectionManager.getConnection();
-				PreparedStatement pst = conexion.prepareStatement(sql);
+				PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL);
 				ResultSet rs = pst.executeQuery();
 
 		) {
@@ -66,10 +73,10 @@ public class LibroDAOImpl implements LibroDAO {
 
 	@Override
 	public Libro getById(int id) throws Exception {
-		String sql = "SELECT id, titulo FROM libro ORDER BY id DESC;";
+
 		Libro registro = new Libro();
 		try (Connection conexion = ConnectionManager.getConnection();
-				PreparedStatement pst = conexion.prepareStatement(sql);
+				PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_ID);
 
 		) {
 
@@ -92,31 +99,25 @@ public class LibroDAOImpl implements LibroDAO {
 
 	@Override
 	public Libro delete(int id) throws Exception {
-		
-	 String sql = " DELETE FROM libro WHERE id = ? ; ";
-		
+
 		// conseguir el libro antes de Eliminar
-		Libro registro =  getById(id);
-		
-		try(
-				Connection conexion = ConnectionManager.getConnection();	
-				PreparedStatement pst = conexion.prepareStatement(sql);				
-				
-			){
-			
-			
+		Libro registro = getById(id);
+
+		try (Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_DELETE);
+
+		) {
+
 			pst.setInt(1, id);
 			int affectedRows = pst.executeUpdate();
-			
-			if ( affectedRows != 1 ) {
-				throw new Exception("No se puedo eliminar el registro id = " + id);				
+
+			if (affectedRows != 1) {
+				throw new Exception("No se puedo eliminar el registro id = " + id);
 			}
-			
-			
-		}// try		
+
+		} // try
 		return registro;
-		
-	
+
 	}
 
 	@Override
@@ -125,10 +126,10 @@ public class LibroDAOImpl implements LibroDAO {
 		ArrayList<Libro> registros = new ArrayList<Libro>();
 
 		// Execute Query
-		String sql = " INSERT INTO libro (titulo) VALUES ( ? ); ";
 
 		try (Connection conexion = ConnectionManager.getConnection();
-				PreparedStatement pst = conexion.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);) {
+				PreparedStatement pst = conexion.prepareStatement(SQL_INSERT,
+						PreparedStatement.RETURN_GENERATED_KEYS);) {
 
 			pst.setString(1, libro.getTitulo());
 
@@ -171,10 +172,8 @@ public class LibroDAOImpl implements LibroDAO {
 
 		// execute query
 
-		String sql = "UPDATE libro SET nombre=? WHERE id=?; ";
-
 		try (Connection conexion = ConnectionManager.getConnection();
-				PreparedStatement pst = conexion.prepareStatement(sql);
+				PreparedStatement pst = conexion.prepareStatement(SQL_UPDATE, PreparedStatement.RETURN_GENERATED_KEYS);
 
 		) {
 
@@ -182,24 +181,22 @@ public class LibroDAOImpl implements LibroDAO {
 			pst.setString(2, libro.getTitulo());
 
 			int affectedRows = pst.executeUpdate();
-			
 
 			if (affectedRows == 1) {
-				
+
 				try (ResultSet rsKeys = pst.getGeneratedKeys()) {
 
 					if (rsKeys.next()) {
 						int id = rsKeys.getInt(1);
-						String titulo=rsKeys.getString(2);
+						String titulo = rsKeys.getString(2);
 						libro.setId(id);
 						libro.setTitulo(titulo);
 					}
-
 				}
 
-			}else {
-				
-				throw new Exception("No se ha podido guardar el registro " + libro );
+			} else {
+
+				throw new Exception("No se ha podido guardar el registro " + libro);
 			}
 
 		} catch (SQLException e) {
