@@ -37,7 +37,10 @@
 					principal</a></li>
 			<li class="nav-item"><a class="nav-link" href="inicio">listado
 					de libros</a></li>
-			<li class="nav-item"><a class="nav-link" href="registro.jsp">registro</a></li>
+			<li class="nav-item"><a class="nav-link" href="registro">gestion de libros</a></li>
+			<li class="nav-item"><a class="nav-link" href="EliminarLibro">eliminar libros</a></li>
+		</ul>
+
 		</ul>
 	</nav>
 	<br>
@@ -48,7 +51,7 @@
 
 		<form action="registro" method="post">
 			<div class="form-group">
-				<label for="id">id </label> <input type="text" name="titulo"
+				<label for="id">id </label> <input type="text" name="id"
 					Value="${libro.id}" class="form-control" >
 			</div>
 			<br>

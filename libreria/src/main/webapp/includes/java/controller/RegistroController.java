@@ -33,8 +33,16 @@ public class RegistroController extends HttpServlet {
 			throws ServletException, IOException {
 
 		try {
-			LibroDAOImpl dao = LibroDAOImpl.getInstance();
+
+			String parametroId = request.getParameter("id");
 			Libro libro = new Libro();
+
+			if (parametroId != null) {
+
+				int id = Integer.parseInt(parametroId);
+				LibroDAOImpl dao = LibroDAOImpl.getInstance();
+				libro = dao.getById(id);
+			}
 			request.setAttribute("libro", libro);
 
 		} catch (Exception e) {
@@ -56,20 +64,23 @@ public class RegistroController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		// Crear objeto
+			Libro libro=new Libro();
+			
 		try {
 
 			// recoger los valores del formulario
 			String idParametro = request.getParameter("id");
 			String titulo = request.getParameter("titulo");
+			
 			int id = Integer.parseInt(idParametro);
 			
 			// DAO
 			LibroDAOImpl dao = LibroDAOImpl.getInstance();
 			
 			
-			// Crear objeto y parametros
-			Libro libro = new Libro();
+			// Crear parametros
+		
 		    libro.setId(id);
 			libro.setTitulo(titulo);
 
@@ -81,29 +92,31 @@ public class RegistroController extends HttpServlet {
 				if (id==0) {
 
 					dao.insert(libro);
-
+					request.setAttribute("libro", libro);
 					request.getSession().setAttribute("mensaje", "Libro registrado con exito");
-					response.sendRedirect("index.jsp");
+					//response.sendRedirect("registro.jsp");
 					
-				} else {
+				}  else {
 					dao.update(libro);
 					// ir a la vista del registro de libros
 					request.setAttribute("libro", libro);
 					request.setAttribute("mensaje", "El libro ya existe");
-					request.getRequestDispatcher("registro.jsp").forward(request, response);
+					//request.getRequestDispatcher("registro.jsp").forward(request, response);
 				} // if
 			}else {
 				request.setAttribute("mensaje", "El titulo debe tener entre 2 y 100 caracteres");
 			}
 		} catch (Exception e) {
 			request.setAttribute("mensaje", " Lo sentimos pero hemos tenido una Excepcion " + e.getMessage());
-			e.printStackTrace();
+			e.printStackTrace()
 
-		} // trycatch
+		} finally {
+			request.getRequestDispatcher("registro.jsp").forward(request, response);
+
+		}// trycatch
 
 		// ir a la nueva vista o jsp
-		request.getRequestDispatcher("index.jsp").forward(request, response);
-
+		
 	}
 
 }// dopost

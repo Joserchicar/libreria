@@ -38,7 +38,9 @@
 					principal</a></li>
 			<li class="nav-item"><a class="nav-link" href="inicio">listado
 					de libros</a></li>
-			<li class="nav-item"><a class="nav-link" href="registro.jsp">Registro</a></li>
+			<li class="nav-item"><a class="nav-link" href="registro">gestion libros</a></li>
+			
+			<li class="nav-item"><a class="nav-link" href="EliminarLibro">eliminar</a></li>
 		</ul>
 	</nav>
 	<br>
@@ -50,7 +52,7 @@
 				<tr>
 					<td>Id</td>
 					<td>Titulo</td>
-
+					<td>Acciones </td>
 				</tr>
 			</thead>
 			<tbody>
@@ -58,30 +60,31 @@
 					<tr>
 						<td>${l.id}</td>
 						<td>${l.titulo}</td>
-
+						
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-		</main>
-<div>
-	<!-- pie de pagina-->
-	<footer class="container">
-		<div>
-			<a href="#"> <i class="fab fa-facebook"></i></a> <a href="#"><i
-				class="fab fa-twitter-square"></i></a>
-		</div>
-		<div>
-			<a href="#">politica de privacidad</a> <a href="#">Contacto</a>
-		</div>
+	</main>
+	<div>
+		<!-- pie de pagina-->
+		<footer class="container">
+			<div>
+				<a href="#"> <i class="fab fa-facebook"></i></a> <a href="#"><i
+					class="fab fa-twitter-square"></i></a>
+			</div>
+			<div>
+				<a href="#">politica de privacidad</a> <a href="#">Contacto</a>
+			</div>
 
-		<p>&copy; Libreria 2020</p>
-	</footer>
+			<p>&copy; Libreria 2020</p>
+		</footer>
 
-</div>
-<a href="#top"class="btn btn-warning position-fixed fixed-bottom d-block d-sm-none">Top</a>
-	
-	
-	
+	</div>
+	<a href="#top"
+		class="btn btn-warning position-fixed fixed-bottom d-block d-sm-none">Top</a>
+
+
+
 </body>
 </html>
