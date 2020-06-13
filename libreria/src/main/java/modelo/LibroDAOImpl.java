@@ -187,8 +187,12 @@ public class LibroDAOImpl implements LibroDAO {
 				try (ResultSet rsKeys = pst.getGeneratedKeys()) {
 
 					if (rsKeys.next()) {
+						//Recuperamos columnas del rs
 						int id = rsKeys.getInt(1);
 						String titulo = rsKeys.getString(2);
+						
+						// Creamos el objeto con lo obtenido en rs
+						libro=new Libro();
 						libro.setId(id);
 						libro.setTitulo(titulo);
 					}
