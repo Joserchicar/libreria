@@ -62,7 +62,7 @@
 						<td>
 						<a href="registro?id=${l.id}" class="mr-4"> <i class="far fa-edit fa-2x" title="Editar libro"></i></a>
 						<a href="EliminarLibro?id=${l.id}"
-						   onclick="confirmar('${l.titulo}')" 
+						   onclick="confirmar('¿Estas Seguro ?')" 
 						   ><i class="fas fa-trash fa-2x" title="Eliminar libro"></i></a>
 					</td>
 						
