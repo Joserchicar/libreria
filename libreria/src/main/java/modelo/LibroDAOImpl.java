@@ -27,11 +27,11 @@ public class LibroDAOImpl implements LibroDAO {
 	}
 
 	// SQL
-	private final String SQL_GET_ALL = "SELECT id, titulo FROM libro ORDER BY id DESC;";
-	private final String SQL_GET_BY_ID = "SELECT id, titulo FROM libro WHERE id=?;";
+	private final String SQL_GET_ALL = "SELECT id, titulo FROM libro ORDER BY id DESC LIMIT 500;";
+	private final String SQL_GET_BY_ID = "SELECT id, titulo FROM libro WHERE id=? LIMIT 500;";
 
-	private final String SQL_INSERT = " INSERT INTO libro (titulo) VALUES ( ? ); ";
-	private final String SQL_UPDATE = "UPDATE libro SET nombre=? WHERE id=?; ";
+	private final String SQL_INSERT = " INSERT INTO libro (titulo) VALUES ( ? ) ; ";
+	private final String SQL_UPDATE = "UPDATE libro SET nombre=? WHERE id=? ; ";
 
 	private final String SQL_DELETE = " DELETE FROM libro WHERE id = ? ; ";
 

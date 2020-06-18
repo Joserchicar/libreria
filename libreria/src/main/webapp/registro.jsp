@@ -3,8 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <jsp:include page="includes/cabecera.jsp">
-	<jsp:param name="pagina" value="usuario" />
-	<jsp:param name="title" value="Usuarios" />
+	<jsp:param name="pagina" value="registro" />
+	<jsp:param name="title" value="registro" />
 </jsp:include>
 
 
