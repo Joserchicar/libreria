@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import modelo.GeneroDAOImpl;
 import modelo.LibroDAO;
 import modelo.LibroDAOImpl;
 
@@ -17,7 +18,7 @@ import modelo.LibroDAOImpl;
 public class InicioController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final LibroDAOImpl libroDAO = LibroDAO.getInstance();
-    
+    private static final GeneroDAOImpl generoDAO= GeneroDAOImpl.getInstance();
    
 
 	/**
@@ -31,9 +32,22 @@ public class InicioController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.setAttribute("libro",libroDAO.getAll() );
+		String paramIdGenero=request.getParameter("idGenero");
+		ArrayList< Libro>libros= new ArrayList<Libro>();
+		
+		if (paramIdGenero != null) {
+			
+			int idGenero= Integer.parseInt(paramIdGenero);
+			libros=libroDAO.getAllByGenero(idGenero,10 );	
+			
+		}else {
+			libros=libroDAO.getLast(10);
+				
+		}
+		request.setAttribute("libros",libros );
+		request.setAttribute("generos", generoDAO.getAll());
+		
 		request.getRequestDispatcher("index.jsp").forward(request, response);
-	
 	
 	}
 

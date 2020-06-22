@@ -58,23 +58,33 @@
 				<li class="nav-item "><a
 					class="nav-link ${ ( 'inicio' eq param.pagina ) ? 'active' : '' }"
 					href="index.jsp">Inicio</a></li>
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+					role="button" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false">generos</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<c:forEach items="${generos}" var="genero">
+							<a class="dropdown-item" href="inicio?idCategoria=${genero.id}">${genero.genero }
+							</a>
+						</c:forEach>
+					</div></li>
 
 				<li class="nav-item"><a
 					class="nav-link ${ ( 'libro' eq param.pagina ) ? 'active' : '' }"
 					href="Libro.jsp">Libros</a></li>
 
- <!-- opciones cuando el usuario esta Logeado -->
-            
-             <c:if test="${ not empty usuario_login }">
-             
-            	<li class="nav-item">
-              		<a class="nav-link ${ ( 'Libros' eq param.pagina ) ? 'active' : '' } "  href="libro">Libros</a>
-            	</li>
-            	<li class="nav-item">
-              		<a class="nav-link ${ ( 'registro' eq param.pagina ) ? 'active' : '' } "  href="registro">gestion</a>
-            	</li>
-            	
-            </c:if>	           
+				<!-- opciones cuando el usuario esta Logeado -->
+
+				<c:if test="${ not empty usuario_login }">
+
+					<li class="nav-item"><a
+						class="nav-link ${ ( 'Libros' eq param.pagina ) ? 'active' : '' } "
+						href="libro">Libros</a></li>
+					<li class="nav-item"><a
+						class="nav-link ${ ( 'registro' eq param.pagina ) ? 'active' : '' } "
+						href="registro">gestion</a></li>
+
+				</c:if>
 
 			</ul>
 
@@ -96,6 +106,3 @@
 	<br>
 
 	<main role="main" class="container">
-	
-	
-	

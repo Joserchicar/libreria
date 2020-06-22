@@ -29,7 +29,6 @@ public class LibroController extends HttpServlet {
 
 		//conseguir libros de la BBDD
 		LibroDAOImpl dao = LibroDAOImpl.getInstance();
-
 		ArrayList<Libro> libros = new ArrayList<Libro>();
 		
 		
@@ -44,7 +43,7 @@ public class LibroController extends HttpServlet {
 		request.setAttribute("libros", libros);
 
 		//ir a la nueva vista
-		request.getRequestDispatcher("index.jsp").forward(request, response);
+		request.getRequestDispatcher("libro.jsp").forward(request, response);
 
 	}
 

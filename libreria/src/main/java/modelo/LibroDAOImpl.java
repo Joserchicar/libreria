@@ -27,14 +27,17 @@ public class LibroDAOImpl implements LibroDAO {
 	}
 
 	// SQL
-	private final String SQL_GET_ALL = "SELECT" + 
-			" l.id  'libro_id', " + 
-			" titulo ," + 
-			" g.id  ' genero_id',"+ 
-			"g.genero ' genero_genero' " + 
-			" FROM libro l,genero g " +
-			" WHERE l.genero = g.id "
+	private final String SQL_GET_ALL = "SELECT" + " l.id  'libro_id', " + " titulo ," + " g.id  ' genero_id',"
+			+ "g.genero ' genero_genero' " + " FROM libro l,genero g " + " WHERE l.genero = g.id "
 			+ "ORDER BY id DESC LIMIT 500;";
+
+	private final String SQL_GET_LAST = "SELECT" + " l.id  'libro_id', " + " titulo ," + " g.id  ' genero_id',"
+			+ "g.genero ' genero_genero' " + " FROM libro l,genero g " + " WHERE l.genero = g.id "
+			+ " ORDER BY p.id DESC LIMIT ? ; ";
+
+	private final String SQL_GET_BY_GENERO = "SELECT" + " l.id  'libro_id', " + " titulo ," + " g.id  ' genero_id',"
+			+ "g.genero ' genero_genero' " + " FROM libro l,genero g " + " WHERE l.genero = g.id "
+			+ " ORDER BY p.id DESC LIMIT ? ; ";
 
 	private final String SQL_GET_BY_ID = "SELECT " + " l.id  'libro_id', " + " titulo ," + "g.id  ' genero_id',"
 			+ "g.genero ' genero_genero' " + " FROM libro l,genero g " + "WHERE l.genero = g.id AND l.id=? LIMIT 500;";
@@ -96,6 +99,49 @@ public class LibroDAOImpl implements LibroDAO {
 	}
 
 	@Override
+	public ArrayList<Libro> getLast(int numReg) {
+
+		ArrayList<Libro> registros = new ArrayList<Libro>();
+
+		try (Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_GET_LAST);) {
+			pst.setInt(1, numReg);
+			try (ResultSet rs = pst.executeQuery()) {
+				while (rs.next()) {
+					registros.add(mapper(rs));
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return registros;
+	}
+
+	@Override
+	public ArrayList<Libro> getAllByGenero(int idGenero, int numReg) {
+
+		ArrayList<Libro> registros = new ArrayList<Libro>();
+
+		try (Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_GENERO);) {
+
+			pst.setInt(1, idGenero);
+			pst.setInt(2, numReg);
+			try (ResultSet rs = pst.executeQuery()) {
+
+				while (rs.next())
+					registros.add(mapper(rs));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return registros;
+	}
+
+	@Override
 	public Libro delete(int id) throws Exception {
 
 		// conseguir el libro antes de Eliminar
@@ -130,10 +176,9 @@ public class LibroDAOImpl implements LibroDAO {
 						PreparedStatement.RETURN_GENERATED_KEYS);) {
 
 			pst.setString(1, libro.getTitulo());
-			pst.setInt(2,libro.getGenero().getId());
+			pst.setInt(2, libro.getGenero().getId());
 
 			int affectedRows = pst.executeUpdate();
-			
 
 			if (affectedRows == 1) {
 				// conseguir el id
@@ -188,12 +233,6 @@ public class LibroDAOImpl implements LibroDAO {
 		return libro;
 	}
 
-	@Override
-	public ArrayList<Libro> getAllByNombre(String nombre) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	private Libro mapper(ResultSet rs) throws SQLException {
 
 		Libro l = new Libro();
@@ -204,11 +243,17 @@ public class LibroDAOImpl implements LibroDAO {
 
 		g.setId(rs.getInt("genero_id"));
 		g.setGenero(rs.getString("genero_genero"));
-		
+
 		l.setGenero(g);
-		
+
 		return l;
 
+	}
+
+	@Override
+	public ArrayList<Libro> getAllByTitulo(String titulo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
