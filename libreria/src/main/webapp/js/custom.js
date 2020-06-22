@@ -39,12 +39,12 @@ function cifrar() {
 }
 
 
-function confirmar(nombre) {
+function confirmar(titulo) {
 	
 	// The confirm() method returns true if the user clicked "OK", and false otherwise. 
 	if ( confirm('¿ Estas seguro que quires eliminar ' + nombre + ' ?') ){
 		
-		console.debug(' continua el evento por defceto del ancla ');
+		console.debug(' continua el evento por defecto del ancla ');
 		
 	}else {
 		console.debug(' prevenimos o detenemos el evento del ancla ');

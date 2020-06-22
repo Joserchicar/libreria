@@ -84,7 +84,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	public Usuario existe(String nombre, String contrasenia) {
 	
 		
-		
 		Usuario usuario = null;
 
 		try (Connection conexion = ConnectionManager.getConnection();

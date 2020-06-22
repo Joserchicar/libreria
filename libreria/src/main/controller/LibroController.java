@@ -15,17 +15,10 @@ import modelo.LibroDAOImpl;
 /**
  * Servlet implementation class LibroController
  */
-@WebServlet("/inicio")
+@WebServlet("/Libro")
 public class LibroController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public LibroController() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -34,18 +27,23 @@ public class LibroController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		//conseguir libros de la BBDD
 		LibroDAOImpl dao = LibroDAOImpl.getInstance();
 
 		ArrayList<Libro> libros = new ArrayList<Libro>();
+		
+		
+		
 		try {
 			libros = dao.getAll();
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
-
+		// obtengo los datos para enviar a la vista
 		request.setAttribute("libros", libros);
 
+		//ir a la nueva vista
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 
 	}

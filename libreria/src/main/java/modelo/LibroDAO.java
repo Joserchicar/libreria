@@ -9,7 +9,7 @@ public interface LibroDAO extends CRUDAble<Libro> {
 	
 		
 		
-		ArrayList<Libro> getAllByNombre( String nombre );
+		ArrayList<Libro> getAllByNombre( String titulo );
 		
 
 		

@@ -29,9 +29,11 @@
 <link rel="stylesheet" href="css/styles.css">
 
 
+
+<title>${param.title}|Libreria</title>
 </head>
 
-<body id="top">
+<body onload="init()" id="top">
 	<header>
 		<!-- encabezado pagina -->
 		<h1>Libreria</h1>
@@ -40,6 +42,7 @@
 
 	<!-- Barra de Navegacion -->
 	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+
 
 		<!-- icono para desplegar menu en moviles -->
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -52,25 +55,26 @@
 		<!-- lista enlaces -->
 		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a
+				<li class="nav-item "><a
 					class="nav-link ${ ( 'inicio' eq param.pagina ) ? 'active' : '' }"
 					href="index.jsp">Inicio</a></li>
-					
-					
-				<c:if test="${empty usuario_login }">
-					<li class="nav-item"><a class="nav-link" href="index.jsp">pagina
-							principal</a></li>
-				</c:if>
-				<c:if test="${not empty usuario_login }">
 
-					<li class="nav-item"><a class="nav-link" href="inicio">pagina
-							principal</a></li>
+				<li class="nav-item"><a
+					class="nav-link ${ ( 'libro' eq param.pagina ) ? 'active' : '' }"
+					href="Libro.jsp">Libros</a></li>
 
-					<li class="nav-item"><a class="nav-link" href="inicio">listado
-							de libros</a></li>
-					<li class="nav-item"><a class="nav-link" href="registro">gestion
-							libros</a></li>
-				</c:if>
+ <!-- opciones cuando el usuario esta Logeado -->
+            
+             <c:if test="${ not empty usuario_login }">
+             
+            	<li class="nav-item">
+              		<a class="nav-link ${ ( 'Libros' eq param.pagina ) ? 'active' : '' } "  href="libro">Libros</a>
+            	</li>
+            	<li class="nav-item">
+              		<a class="nav-link ${ ( 'registro' eq param.pagina ) ? 'active' : '' } "  href="registro">gestion</a>
+            	</li>
+            	
+            </c:if>	           
 
 			</ul>
 
@@ -79,8 +83,8 @@
 					<a class="nav-link  btn btn-outline-warning" href="Login.jsp">Iniciar
 						Sesión</a>
 				</c:if> <c:if test="${ not empty usuario_login }">
-					<span class="text-primary">${usuario_login.nombre}</span>
-					<a class="nav-link  btn btn-outline-warning" href="Logout">Cerrar
+					<span class="badge badge-pill badge-light mr-3">${usuario_login.nombre}</span>
+					<a class="nav-link  btn btn-outline-light" href="Logout">Cerrar
 						Sesión</a>
 				</c:if>
 
@@ -91,4 +95,7 @@
 	</nav>
 	<br>
 
-	<main>
+	<main role="main" class="container">
+	
+	
+	

@@ -27,11 +27,20 @@ public class LibroDAOImpl implements LibroDAO {
 	}
 
 	// SQL
-	private final String SQL_GET_ALL = "SELECT id, titulo FROM libro ORDER BY id DESC LIMIT 500;";
-	private final String SQL_GET_BY_ID = "SELECT id, titulo FROM libro WHERE id=? LIMIT 500;";
+	private final String SQL_GET_ALL = "SELECT" + 
+			" l.id  'libro_id', " + 
+			" titulo ," + 
+			" g.id  ' genero_id',"+ 
+			"g.genero ' genero_genero' " + 
+			" FROM libro l,genero g " +
+			" WHERE l.genero = g.id "
+			+ "ORDER BY id DESC LIMIT 500;";
 
-	private final String SQL_INSERT = " INSERT INTO libro (titulo) VALUES ( ? ) ; ";
-	private final String SQL_UPDATE = "UPDATE libro SET nombre=? WHERE id=? ; ";
+	private final String SQL_GET_BY_ID = "SELECT " + " l.id  'libro_id', " + " titulo ," + "g.id  ' genero_id',"
+			+ "g.genero ' genero_genero' " + " FROM libro l,genero g " + "WHERE l.genero = g.id AND l.id=? LIMIT 500;";
+
+	private final String SQL_INSERT = " INSERT INTO libro (titulo, id_usuario,id_genero) VALUES ( ?,1,? ) ; ";
+	private final String SQL_UPDATE = "UPDATE libro SET nombre=?, id_genero=? WHERE id=? ; ";
 
 	private final String SQL_DELETE = " DELETE FROM libro WHERE id = ? ; ";
 
@@ -47,18 +56,9 @@ public class LibroDAOImpl implements LibroDAO {
 
 		) {
 			while (rs.next()) {
-				// recuperamos columnas del rs(resultSet)
-				int id = rs.getInt("id");
-				String titulo = rs.getString("titulo");
-
-				// Creamos el objeto con lo obtenido en rs
-
-				Libro libro = new Libro();
-				libro.setId(id);
-				libro.setTitulo(titulo);
 
 				// guardar en lista
-				registros.add(libro);
+				registros.add(mapper(rs));
 
 			} // while
 
@@ -85,9 +85,7 @@ public class LibroDAOImpl implements LibroDAO {
 
 			if (rs.next()) {
 
-				registro.setId(rs.getInt("id"));
-				registro.setTitulo(rs.getString("titulo"));
-
+				registro = mapper(rs);
 			} else {
 				throw new Exception("no se encuentra registro con id= " + id);
 
@@ -132,29 +130,26 @@ public class LibroDAOImpl implements LibroDAO {
 						PreparedStatement.RETURN_GENERATED_KEYS);) {
 
 			pst.setString(1, libro.getTitulo());
+			pst.setInt(2,libro.getGenero().getId());
 
 			int affectedRows = pst.executeUpdate();
+			
+
 			if (affectedRows == 1) {
+				// conseguir el id
 
 				try (ResultSet rsKeys = pst.getGeneratedKeys()) {
 
 					if (rsKeys.next()) {
 						// recuperamos columnas del rs(resultSet)
-						int id = rsKeys.getInt("id");
-						String titulo = rsKeys.getString("titulo");
-
-						// Creamos el objeto con lo obtenido en rs
-
-						libro = new Libro();
+						int id = rsKeys.getInt("1");
 						libro.setId(id);
-						libro.setTitulo(titulo);
-
-						// guardar en lista
-						registros.add(libro);
 
 					}
 				}
 
+			} else {
+				throw new Exception("No se ha podido guardar el registro " + libro);
 			}
 		} catch (Exception e) {
 
@@ -179,32 +174,15 @@ public class LibroDAOImpl implements LibroDAO {
 
 			pst.setInt(1, libro.getId());
 			pst.setString(2, libro.getTitulo());
+			pst.setInt(3, libro.getGenero().getId());
 
 			int affectedRows = pst.executeUpdate();
 
-			if (affectedRows == 1) {
+			if (affectedRows != 1) {
 
-				try (ResultSet rsKeys = pst.getGeneratedKeys()) {
+				throw new Exception("No se puede podificar el registro con id=" + libro.getId());
 
-					if (rsKeys.next()) {
-						//Recuperamos columnas del rs
-						int id = rsKeys.getInt(1);
-						String titulo = rsKeys.getString(2);
-						
-						// Creamos el objeto con lo obtenido en rs
-						libro=new Libro();
-						libro.setId(id);
-						libro.setTitulo(titulo);
-					}
-				}
-
-			} else {
-
-				throw new Exception("No se ha podido guardar el registro " + libro);
 			}
-
-		} catch (SQLException e) {
-			throw new Exception(" El nombre" + libro.getTitulo() + " del libro ya existe");
 		}
 
 		return libro;
@@ -215,4 +193,22 @@ public class LibroDAOImpl implements LibroDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	private Libro mapper(ResultSet rs) throws SQLException {
+
+		Libro l = new Libro();
+		Genero g = new Genero();
+
+		l.setId(rs.getInt("libro_id"));
+		l.setTitulo(rs.getString("titulo"));
+
+		g.setId(rs.getInt("genero_id"));
+		g.setGenero(rs.getString("genero_genero"));
+		
+		l.setGenero(g);
+		
+		return l;
+
+	}
+
 }
