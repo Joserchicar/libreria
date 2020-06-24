@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import modelo.GeneroDAOImpl;
+import modelo.Libro;
 import modelo.LibroDAO;
 import modelo.LibroDAOImpl;
 
@@ -17,7 +20,7 @@ import modelo.LibroDAOImpl;
 @WebServlet("/inicio")
 public class InicioController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private static final LibroDAOImpl libroDAO = LibroDAO.getInstance();
+    private static final LibroDAOImpl libroDAO = LibroDAOImpl.getInstance();
     private static final GeneroDAOImpl generoDAO= GeneroDAOImpl.getInstance();
    
 

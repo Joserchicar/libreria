@@ -28,7 +28,7 @@ public class GeneroDAOImpl implements GeneroDAO {
 	}
 
 	// excuteQuery => ResultSet
-	private final String SQL_GET_ALL = " SELECT id, nombre FROM categoria ORDER BY nombre ASC; ";
+	private final String SQL_GET_ALL = " SELECT id, genero FROM genero ORDER BY genero ASC; ";
 
 	@Override
 	public ArrayList<Genero> getAll() {
@@ -76,7 +76,7 @@ public class GeneroDAOImpl implements GeneroDAO {
 	private Genero mapper(ResultSet rs) throws SQLException {
 		Genero g = new Genero();
 		g.setId(rs.getInt("id"));
-		g.setGenero (rs.getString("nombre"));
+		g.setGenero (rs.getString("genero"));
 		return g;
 	}
 

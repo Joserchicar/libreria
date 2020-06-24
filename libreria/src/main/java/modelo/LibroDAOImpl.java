@@ -29,21 +29,21 @@ public class LibroDAOImpl implements LibroDAO {
 	// SQL
 	private final String SQL_GET_ALL = "SELECT" + " l.id  'libro_id', " + " titulo ," + " g.id  ' genero_id',"
 			+ "g.genero ' genero_genero' " + " FROM libro l,genero g " + " WHERE l.genero = g.id "
-			+ "ORDER BY id DESC LIMIT 500;";
+			+ "ORDER BY l.id ASC LIMIT 500;";
 
 	private final String SQL_GET_LAST = "SELECT" + " l.id  'libro_id', " + " titulo ," + " g.id  ' genero_id',"
 			+ "g.genero ' genero_genero' " + " FROM libro l,genero g " + " WHERE l.genero = g.id "
-			+ " ORDER BY p.id DESC LIMIT ? ; ";
+			+ " ORDER BY l.id ASC LIMIT ? ; ";
 
 	private final String SQL_GET_BY_GENERO = "SELECT" + " l.id  'libro_id', " + " titulo ," + " g.id  ' genero_id',"
-			+ "g.genero ' genero_genero' " + " FROM libro l,genero g " + " WHERE l.genero = g.id "
-			+ " ORDER BY p.id DESC LIMIT ? ; ";
+			+ "g.genero 'genero_genero' " + " FROM libro l,genero g " + " WHERE l.genero = g.id "
+			+ " ORDER BY g.id ASC LIMIT ? ; ";
 
 	private final String SQL_GET_BY_ID = "SELECT " + " l.id  'libro_id', " + " titulo ," + "g.id  ' genero_id',"
-			+ "g.genero ' genero_genero' " + " FROM libro l,genero g " + "WHERE l.genero = g.id AND l.id=? LIMIT 500;";
+			+ "g.genero 'genero' " + " FROM libro l,genero g " + "WHERE l.genero = g.id AND l.id=? LIMIT 500;";
 
-	private final String SQL_INSERT = " INSERT INTO libro (titulo, id_usuario,id_genero) VALUES ( ?,1,? ) ; ";
-	private final String SQL_UPDATE = "UPDATE libro SET nombre=?, id_genero=? WHERE id=? ; ";
+	private final String SQL_INSERT = " INSERT INTO libro (titulo, id_usuario,genero_id) VALUES ( ?,1,? ) ; ";
+	private final String SQL_UPDATE = "UPDATE libro SET nombre=?,genero_id=? WHERE id=? ; ";
 
 	private final String SQL_DELETE = " DELETE FROM libro WHERE id = ? ; ";
 
@@ -124,7 +124,7 @@ public class LibroDAOImpl implements LibroDAO {
 		ArrayList<Libro> registros = new ArrayList<Libro>();
 
 		try (Connection conexion = ConnectionManager.getConnection();
-				PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_GENERO);) {
+				PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_GENERO)) {
 
 			pst.setInt(1, idGenero);
 			pst.setInt(2, numReg);

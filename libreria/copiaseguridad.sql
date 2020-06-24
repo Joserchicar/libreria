@@ -24,6 +24,31 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `libreria` /*!40100 DEFAULT CHARACTER S
 USE `libreria`;
 
 --
+-- Table structure for table `genero`
+--
+
+DROP TABLE IF EXISTS `genero`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `genero` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `genero` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `genero_UN` (`genero`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `genero`
+--
+
+LOCK TABLES `genero` WRITE;
+/*!40000 ALTER TABLE `genero` DISABLE KEYS */;
+INSERT INTO `genero` VALUES (6,'actual'),(3,'CiFi'),(2,'clasico'),(4,'epica fantastica'),(1,'novela negra'),(5,'romantica');
+/*!40000 ALTER TABLE `genero` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `libro`
 --
 
@@ -33,8 +58,11 @@ DROP TABLE IF EXISTS `libro`;
 CREATE TABLE `libro` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `titulo` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `genero` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `titulo` (`titulo`)
+  UNIQUE KEY `titulo` (`titulo`),
+  KEY `libro_FK` (`genero`),
+  CONSTRAINT `libro_FK` FOREIGN KEY (`genero`) REFERENCES `genero` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -44,7 +72,7 @@ CREATE TABLE `libro` (
 
 LOCK TABLES `libro` WRITE;
 /*!40000 ALTER TABLE `libro` DISABLE KEYS */;
-INSERT INTO `libro` VALUES (4,'El Lazarillo de Tormes'),(1,'El Quijote'),(6,'El seÃ±or de los anillos'),(5,'Fortunata y Jacinta'),(13,'Fundacion'),(2,'La Celestina'),(7,'La ley de Murphy'),(3,'La Regenta'),(8,'Las Bicicletas son para el verano');
+INSERT INTO `libro` VALUES (1,'El Quijote',2),(2,'La Celestina',2),(3,'La Regenta',2),(4,'El Lazarillo de Tormes',2),(5,'Fortunata y Jacinta',2),(6,'El seÃ±or de los anillos',4),(7,'La ley de Murphy',6),(8,'Las Bicicletas son para el verano',6),(13,'Fundacion',3);
 /*!40000 ALTER TABLE `libro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,4 +112,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-13 12:59:41
+-- Dump completed on 2020-06-23  8:01:59

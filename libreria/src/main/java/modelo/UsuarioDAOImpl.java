@@ -41,7 +41,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 				PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL);
 				ResultSet rs = pst.executeQuery();) {
 
-			System.out.println("SQL= " + pst);
+			//System.out.println("SQL= " + pst);
 
 			while (rs.next()) {
 				usuarios.add(mapper(rs));

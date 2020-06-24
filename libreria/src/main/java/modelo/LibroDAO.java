@@ -32,5 +32,8 @@ public interface LibroDAO extends CRUDAble<Libro> {
 	ArrayList<Libro> getAllByGenero(int idGenero, int numReg);
 
 	
+	}
 
-}
+	
+
+

@@ -57,20 +57,20 @@
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item "><a
 					class="nav-link ${ ( 'inicio' eq param.pagina ) ? 'active' : '' }"
-					href="index.jsp">Inicio</a></li>
+					href="inicio">Inicio</a></li>
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 					role="button" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false">generos</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<c:forEach items="${generos}" var="genero">
-							<a class="dropdown-item" href="inicio?idCategoria=${genero.id}">${genero.genero }
+							<a class="dropdown-item" href="inicio?idGenero=${genero.id}&categoria=${genero.genero}">${genero.genero }
 							</a>
 						</c:forEach>
 					</div></li>
 
 				<li class="nav-item"><a
-					class="nav-link ${ ( 'libro' eq param.pagina ) ? 'active' : '' }"
+					class="nav-link ${ ( 'Libros' eq param.pagina ) ? 'active' : '' }"
 					href="Libro.jsp">Libros</a></li>
 
 				<!-- opciones cuando el usuario esta Logeado -->

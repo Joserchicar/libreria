@@ -19,7 +19,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.ipartek.formacion.modelo.Producto;
+
 
 import modelo.Genero;
 import modelo.GeneroDAOImpl;
@@ -67,7 +67,7 @@ public class RegistroController extends HttpServlet {
 
 		} finally {
 			
-request.setAttribute("generos", daoGenero,getAll());
+request.setAttribute("genero", daoGenero.getAll());
 			// ir a la nueva vista o jsp
 			request.getRequestDispatcher("registro.jsp").forward(request, response);
 		}
