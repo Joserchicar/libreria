@@ -59,6 +59,8 @@ CREATE TABLE `libro` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `titulo` varchar(100) CHARACTER SET latin1 NOT NULL,
   `genero` int(11) NOT NULL,
+  `imagen` varchar(100) DEFAULT NULL,
+  `precio` decimal(5,2) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `titulo` (`titulo`),
   KEY `libro_FK` (`genero`),
@@ -72,7 +74,7 @@ CREATE TABLE `libro` (
 
 LOCK TABLES `libro` WRITE;
 /*!40000 ALTER TABLE `libro` DISABLE KEYS */;
-INSERT INTO `libro` VALUES (1,'El Quijote',2),(2,'La Celestina',2),(3,'La Regenta',2),(4,'El Lazarillo de Tormes',2),(5,'Fortunata y Jacinta',2),(6,'El seÃ±or de los anillos',4),(7,'La ley de Murphy',6),(8,'Las Bicicletas son para el verano',6),(13,'Fundacion',3);
+INSERT INTO `libro` VALUES (1,'El Quijote',2,'\"https://picsum.photos/100/100\";',24.50),(2,'La Celestina',2,'\"https://picsum.photos/100/100\";',18.99),(3,'La Regenta',2,'\"https://picsum.photos/100/100\";',16.40),(4,'El Lazarillo de Tormes',2,'\"https://picsum.photos/100/100\";',12.20),(5,'Fortunata y Jacinta',2,'\"https://picsum.photos/100/100\";',17.00),(6,'El seÃ±or de los anillos',4,'\"https://picsum.photos/100/100\";',24.50),(7,'La ley de Murphy',6,'\"https://picsum.photos/100/100\";',18.00),(8,'Las Bicicletas son para el verano',6,'\"https://picsum.photos/100/100\";',22.00),(13,'Fundacion',3,'\"https://picsum.photos/100/100\";',18.99);
 /*!40000 ALTER TABLE `libro` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,4 +114,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-06-23  8:01:59
+-- Dump completed on 2020-06-26 12:05:02

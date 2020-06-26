@@ -1,5 +1,6 @@
-package modelo;
+package modelo.pojo;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -12,6 +13,12 @@ public class Libro {
 		@Size( min = 3, max = 100, message = "La longtitud de ser entre 3 y 100 caracteres")
 		private String titulo;
 		
+		@NotBlank ( message = "Escribe la url de la imagen")
+		private String  imagen;
+		
+		@Min( value = 0, message = "Debe ser positivo")
+		private float precio;
+		
 		private Genero genero;
 		
 
@@ -20,6 +27,8 @@ public class Libro {
 		super();
 		this.id = 0;
 		this.titulo = "";
+		this.imagen = "https://picsum.photos/100/100";
+		this.precio = 0;
 		this.genero=new Genero();
 		
 	}
@@ -50,7 +59,21 @@ public class Libro {
 		this.titulo= titulo;
 	}
 
-	
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
+	public float getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(float precio) {
+		this.precio = precio;
+	}
 
 	public Genero getGenero() {
 		return genero;
@@ -61,18 +84,19 @@ public class Libro {
 		this.genero = genero;
 	}
 
-
 	@Override
 	public String toString() {
-		return "Libro [id=" + id + ", titulo=" + titulo + ", genero=" + genero + "]";
+		return "Libro [id=" + id + ", titulo=" + titulo + ", imagen=" + imagen + ", precio=" + precio + ", genero="
+				+ genero + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((genero == null) ? 0 : genero.hashCode());
 		result = prime * result + id;
+		result = prime * result + ((imagen == null) ? 0 : imagen.hashCode());
+		result = prime * result + Float.floatToIntBits(precio);
 		result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
 		return result;
 	}
@@ -86,12 +110,14 @@ public class Libro {
 		if (getClass() != obj.getClass())
 			return false;
 		Libro other = (Libro) obj;
-		if (genero == null) {
-			if (other.genero != null)
-				return false;
-		} else if (!genero.equals(other.genero))
-			return false;
 		if (id != other.id)
+			return false;
+		if (imagen == null) {
+			if (other.imagen != null)
+				return false;
+		} else if (!imagen.equals(other.imagen))
+			return false;
+		if (Float.floatToIntBits(precio) != Float.floatToIntBits(other.precio))
 			return false;
 		if (titulo == null) {
 			if (other.titulo != null)
@@ -100,7 +126,7 @@ public class Libro {
 			return false;
 		return true;
 	}
-	
 
+	
 	
 }

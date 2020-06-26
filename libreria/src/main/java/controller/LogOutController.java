@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 
 
 
+
+
 /**
  * Servlet implementation class LogOutController
  */
@@ -17,13 +19,7 @@ import javax.servlet.http.HttpSession;
 public class LogOutController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LogOutController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+    
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -32,9 +28,12 @@ public class LogOutController extends HttpServlet {
 		
 		String mensaje = "";
 		
+		mensaje= " la sesion ha finalizado";
 		
-		request.setAttribute("mensaje", "Adios" );
-
+		request.setAttribute("alerta", new Alerta("success", mensaje));
+		
+		
+		
 		
 		// ATENCIoN hacer lo ultimo, 
 		HttpSession session = request.getSession();

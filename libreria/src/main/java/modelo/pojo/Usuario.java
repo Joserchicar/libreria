@@ -1,4 +1,4 @@
-package modelo;
+package modelo.pojo;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -14,14 +14,13 @@ public class Usuario {
 	@NotEmpty
 	private String contrasenia;
 
-	private String imagen;
-
+	
 	public Usuario() {
 		super();
 		this.id = 0;
 		this.nombre = "";
 		this.contrasenia = "";
-		this.imagen = "https://picsum.photos/100/100";
+		
 
 	}
 
@@ -49,17 +48,10 @@ public class Usuario {
 		this.contrasenia = contrasenia;
 	}
 
-	public String getImagen() {
-		return imagen;
-	}
-
-	public void setImagen(String imagen) {
-		this.imagen = imagen;
-	}
-
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", contrasenia=" + contrasenia + ", imagen=" + imagen + "]";
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", contrasenia=" + contrasenia + "]";
 	}
+
 
 }

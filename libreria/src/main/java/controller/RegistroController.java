@@ -19,12 +19,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
-
-import modelo.Genero;
-import modelo.GeneroDAOImpl;
-import modelo.Libro;
-import modelo.LibroDAOImpl;
+import modelo.modeloDAOImpl.GeneroDAOImpl;
+import modelo.modeloDAOImpl.LibroDAOImpl;
+import modelo.pojo.Genero;
+import modelo.pojo.Libro;
 
 /**
  * Servlet implementation class RegistroController
@@ -32,14 +30,12 @@ import modelo.LibroDAOImpl;
 @WebServlet("/registro")
 public class RegistroController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	private static LibroDAOImpl daoLibro=LibroDAOImpl.getInstance();
+
+	private static LibroDAOImpl daoLibro = LibroDAOImpl.getInstance();
 	private static GeneroDAOImpl daoGenero = GeneroDAOImpl.getInstance();
 
 	private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	private static Validator validator = factory.getValidator();
-	
-	
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -51,9 +47,9 @@ public class RegistroController extends HttpServlet {
 		try {
 			String parametroId = request.getParameter("id");
 			Libro libro = new Libro();
-			
+
 			if (parametroId != null) {
-				
+
 				int id = Integer.parseInt(parametroId);
 				LibroDAOImpl dao = LibroDAOImpl.getInstance();
 				libro = dao.getById(id);
@@ -66,8 +62,8 @@ public class RegistroController extends HttpServlet {
 			e.printStackTrace();
 
 		} finally {
-			
-request.setAttribute("genero", daoGenero.getAll());
+
+			request.setAttribute("genero", daoGenero.getAll());
 			// ir a la nueva vista o jsp
 			request.getRequestDispatcher("registro.jsp").forward(request, response);
 		}
@@ -82,6 +78,8 @@ request.setAttribute("genero", daoGenero.getAll());
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// Crear objeto
+
+		Alerta alerta=new Alerta();
 		Libro libro = new Libro();
 
 		try {
@@ -89,26 +87,26 @@ request.setAttribute("genero", daoGenero.getAll());
 			// recoger los valores del formulario
 			String idParametro = request.getParameter("id");
 			String titulo = request.getParameter("titulo");
-			String generoId= request.getParameter("genero_id");
-			
+			String generoId = request.getParameter("genero_id");
+
 			int id = Integer.parseInt(idParametro);
-			int idGenero= Integer.parseInt(generoId);
-			
+			int idGenero = Integer.parseInt(generoId);
+
 			// DAO
 			LibroDAOImpl dao = LibroDAOImpl.getInstance();
 
-			//  parametros
-			
+			// parametros
+
 			libro.setId(id);
 			libro.setTitulo(titulo);
-			
-			Genero g=new Genero();
+
+			Genero g = new Genero();
 			g.setId(idGenero);
 			libro.setGenero(g);
-			
+
 			Set<ConstraintViolation<Libro>> violations = validator.validate(libro);
 
-			if (violations.isEmpty() ) {
+			if (violations.isEmpty()) { // sin errores de validacion
 				// vuelve al inicio y vuelve para listar los libros (redirecciona)
 
 				if (id == 0) {
@@ -126,18 +124,35 @@ request.setAttribute("genero", daoGenero.getAll());
 					// request.setAttribute("mensaje", "El libro ya existe");
 
 				} // if
-			} else {
-				request.setAttribute("mensaje", "El titulo debe tener entre 2 y 100 caracteres");
+
+				alerta= new Alerta("success", "Libro registrado");
+			} else { // Si hay errores de validacion
+
+				String errores = "";
+				for (ConstraintViolation<Libro> v : violations) {
+
+					errores += "<p><b>" + v.getPropertyPath() + "</b>:" + v.getMessage() + "</p>";
+
+				}
+				alerta= new Alerta("danger",errores);
+				
 			}
+
 		} catch (SQLException e) {
+
+			 alerta = new Alerta( "danger", "Lo sentimos pero ya existe ese NOMBRE,escribe otro por favor ");
 			request.setAttribute("mensaje", " Lo sentimos pero ya existe ese titulo. Introduzca otro ");
 			e.printStackTrace();
 		} catch (Exception e) {
-			request.setAttribute("mensaje", " Lo sentimos pero hemos tenido una Excepcion " + e.getMessage());
+			alerta = new Alerta( "danger", "Lo sentimos pero hemos tenido un ERROR inxesperado ");
+			//request.setAttribute("mensaje", " Lo sentimos pero hemos tenido una Excepcion " + e.getMessage());
 			e.printStackTrace();
 		} finally {
-			
-			//Enviar datos a la vista
+
+			// Enviar datos a la vista
+
+			request.setAttribute("alerta", alerta);
+
 			request.setAttribute("libro", libro);
 			request.setAttribute("generos", daoGenero.getAll());
 

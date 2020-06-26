@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import modelo.Usuario;
-import modelo.UsuarioDAO;
-import modelo.UsuarioDAOImpl;
+import modelo.modeloDAO.UsuarioDAO;
+import modelo.modeloDAOImpl.UsuarioDAOImpl;
+import modelo.pojo.Usuario;
 
 
 /**
@@ -28,7 +28,7 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -54,12 +54,16 @@ public class LoginController extends HttpServlet {
 			session.setMaxInactiveInterval(60 * 5); // 5 minutos sin peticiones, se invalida la session del usuario
 			session.setAttribute("usuario_login", usuario);
 
-			request.setAttribute("mensaje", " Ya estas Logeado");
+			
+			request.setAttribute("alerta", new Alerta("success", " Estas Logeado"));
+			
 			request.getRequestDispatcher("index.jsp").forward(request, response);
-
+			
+			
+			
 		} else {
 
-			request.setAttribute("mensaje","Credenciales Incorrectas");
+			request.setAttribute("alerta", new Alerta("warning", "Credenciales Incorrectas"));
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 
 		}

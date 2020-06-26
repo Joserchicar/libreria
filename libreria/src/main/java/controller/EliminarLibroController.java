@@ -7,9 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-import modelo.Libro;
-import modelo.LibroDAOImpl;
+import modelo.modeloDAOImpl.LibroDAOImpl;
+import modelo.pojo.Libro;
 
 /**
  * Servlet implementation class EliminarLibroController
@@ -45,7 +44,7 @@ public class EliminarLibroController extends HttpServlet {
 			
 			
 			// guardar datos en session para el mensaje de la vista
-						request.getSession().setAttribute("mensaje", "libro eliminado con exito" );
+			request.getSession().setAttribute("alerta",new Alerta("success",mensaje) );
 						
 			// pedimos al cliente que realize una segunda REQUEST
 			response.sendRedirect("inicio");

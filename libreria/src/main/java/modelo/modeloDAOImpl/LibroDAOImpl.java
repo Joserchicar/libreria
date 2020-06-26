@@ -1,4 +1,4 @@
-package modelo;
+package modelo.modeloDAOImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import modelo.Libro;
 import modelo.conexion.ConnectionManager;
+import modelo.modeloDAO.LibroDAO;
+import modelo.pojo.Genero;
+import modelo.pojo.Libro;
 
 public class LibroDAOImpl implements LibroDAO {
 
@@ -26,21 +28,41 @@ public class LibroDAOImpl implements LibroDAO {
 		return INSTANCE;
 	}
 
-	// SQL
-	private final String SQL_GET_ALL = "SELECT" + " l.id  'libro_id', " + " titulo ," + " g.id  ' genero_id',"
-			+ "g.genero ' genero_genero' " + " FROM libro l,genero g " + " WHERE l.genero = g.id "
-			+ "ORDER BY l.id ASC LIMIT 500;";
+	// SQL   executeQuery => ResultSet
+	private final String SQL_GET_ALL = "SELECT" + 
+			" l.id  'libro_id', " + 
+			" titulo ," + 
+			" g.id  ' genero_id',"+
+			"g.genero ' genero_genero' " +
+			" FROM libro l,genero g " +
+			" WHERE l.genero = g.id "+
+			"ORDER BY l.id ASC LIMIT 500;";
 
-	private final String SQL_GET_LAST = "SELECT" + " l.id  'libro_id', " + " titulo ," + " g.id  ' genero_id',"
-			+ "g.genero ' genero_genero' " + " FROM libro l,genero g " + " WHERE l.genero = g.id "
-			+ " ORDER BY l.id ASC LIMIT ? ; ";
+	private final String SQL_GET_LAST = "SELECT" + 
+			" l.id  'libro_id', " + 
+			" titulo ," +
+			" g.id  ' genero_id',"+ 
+			"g.genero ' genero_genero' " +
+			" FROM libro l,genero g " +
+			" WHERE l.genero = g.id "+ 
+			" ORDER BY l.id ASC LIMIT ? ; ";
 
-	private final String SQL_GET_BY_GENERO = "SELECT" + " l.id  'libro_id', " + " titulo ," + " g.id  ' genero_id',"
-			+ "g.genero 'genero_genero' " + " FROM libro l,genero g " + " WHERE l.genero = g.id "
-			+ " ORDER BY g.id ASC LIMIT ? ; ";
+	private final String SQL_GET_BY_GENERO = "SELECT" +
+			" l.id  'libro_id', " + 
+			" titulo ," + 
+			" g.id  ' genero_id',"+
+			"g.genero 'genero_genero' " + 
+			" FROM libro l,genero g " +
+			" WHERE l.genero = g.id "+
+			" ORDER BY g.id ASC LIMIT ? ; ";
 
-	private final String SQL_GET_BY_ID = "SELECT " + " l.id  'libro_id', " + " titulo ," + "g.id  ' genero_id',"
-			+ "g.genero 'genero' " + " FROM libro l,genero g " + "WHERE l.genero = g.id AND l.id=? LIMIT 500;";
+	private final String SQL_GET_BY_ID = "SELECT " + 
+			" l.id  'libro_id', " + 
+			" titulo ," + 
+			"g.id  ' genero_id',"+ 
+			"g.genero 'genero' " +
+			" FROM libro l,genero g " +
+			"WHERE l.genero = g.id AND l.id=? LIMIT 500;";
 
 	private final String SQL_INSERT = " INSERT INTO libro (titulo, id_usuario,genero_id) VALUES ( ?,1,? ) ; ";
 	private final String SQL_UPDATE = "UPDATE libro SET nombre=?,genero_id=? WHERE id=? ; ";
@@ -252,6 +274,12 @@ public class LibroDAOImpl implements LibroDAO {
 
 	@Override
 	public ArrayList<Libro> getAllByTitulo(String titulo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Libro> getAllRangoPrecio(int precioMinimo, int precioMaximo) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

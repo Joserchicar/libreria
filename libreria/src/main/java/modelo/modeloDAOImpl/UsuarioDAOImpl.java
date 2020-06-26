@@ -1,4 +1,4 @@
-package modelo;
+package modelo.modeloDAOImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 
 import modelo.conexion.ConnectionManager;
+import modelo.modeloDAO.UsuarioDAO;
+import modelo.pojo.Usuario;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;

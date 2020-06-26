@@ -1,6 +1,9 @@
-package modelo;
+package modelo.modeloDAO;
 
 import java.util.ArrayList;
+
+import modelo.pojo.CRUDAble;
+import modelo.pojo.Libro;
 
 /**
  * Hereda los metodos basicos de la interfaz CrudAble Ademas definie un nuevo:
@@ -31,6 +34,8 @@ public interface LibroDAO extends CRUDAble<Libro> {
 	 */
 	ArrayList<Libro> getAllByGenero(int idGenero, int numReg);
 
+	
+	ArrayList<Libro>getAllRangoPrecio(int precioMinimo,int precioMaximo) throws Exception;;
 	
 	}
 

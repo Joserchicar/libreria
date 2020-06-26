@@ -1,5 +1,7 @@
-package modelo;
+package modelo.modeloDAO;
 
+import modelo.pojo.CRUDAble;
+import modelo.pojo.Usuario;
 
 public interface UsuarioDAO extends CRUDAble<Usuario> {
 

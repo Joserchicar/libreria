@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import modelo.GeneroDAOImpl;
-import modelo.Libro;
-import modelo.LibroDAO;
-import modelo.LibroDAOImpl;
+import modelo.modeloDAO.LibroDAO;
+import modelo.modeloDAOImpl.GeneroDAOImpl;
+import modelo.modeloDAOImpl.LibroDAOImpl;
+import modelo.pojo.Genero;
+import modelo.pojo.Libro;
 
 /**
  * Servlet implementation class InicioController
@@ -22,7 +23,7 @@ public class InicioController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final LibroDAOImpl libroDAO = LibroDAOImpl.getInstance();
     private static final GeneroDAOImpl generoDAO= GeneroDAOImpl.getInstance();
-   
+   private static final String TODOS_LOS_GENEROS ="-1";
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,20 +36,44 @@ public class InicioController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String paramIdGenero=request.getParameter("idGenero");
-		ArrayList< Libro>libros= new ArrayList<Libro>();
+		ArrayList<Libro> libros=new ArrayList<Libro>();
+		ArrayList<Genero> generosConLibros= new ArrayList<Genero>();
 		
-		if (paramIdGenero != null) {
+		
+		String paramIdGenero=request.getParameter("idGenero");
+		String paramGenGenero= (request.getParameter("genero") ==null) ?" todos los generos" : request.getParameter("genero");
+		
+		
+		if (TODOS_LOS_GENEROS.contentEquals(paramIdGenero)) {
 			
-			int idGenero= Integer.parseInt(paramIdGenero);
-			libros=libroDAO.getAllByGenero(idGenero,10 );	
+			generosConLibros= generoDAO.getAllLibros();
+			libros= null;
+			request.setAttribute("encabezado","todos loslibros por genero");
+			
+			
+				
 			
 		}else {
-			libros=libroDAO.getLast(10);
+			
+			generosConLibros=null;
+			
+			if (paramIdGenero!=null) {
 				
+				int idGenero= Integer.parseInt(paramIdGenero);
+				libros=libroDAO.getAllByGenero(idGenero, 10);
+				
+				
+			}else {
+				
+				libros=libroDAO.getLast(10);
+				
+			}
+			
+			request.setAttribute("encabezado", "<b>" + libros.size() + "</b> Útimos libross de <b>" + paramGenGenero + "</b>" );
+			
 		}
 		request.setAttribute("libros",libros );
-		request.setAttribute("generos", generoDAO.getAll());
+		request.setAttribute("generosConLibros", generosConLibros);
 		
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 	
