@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-
-
 import modelo.conexion.ConnectionManager;
 import modelo.modeloDAO.UsuarioDAO;
 import modelo.pojo.Usuario;
@@ -37,18 +35,18 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 	@Override
 	public ArrayList<Usuario> getAll() throws Exception {
+
 		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 
 		try (Connection conexion = ConnectionManager.getConnection();
 				PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL);
 				ResultSet rs = pst.executeQuery();) {
 
-			//System.out.println("SQL= " + pst);
+			System.out.println("SQL= " + pst);
 
 			while (rs.next()) {
 				usuarios.add(mapper(rs));
-				
-				
+
 			}
 
 		} catch (Exception e) {
@@ -84,8 +82,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 	@Override
 	public Usuario existe(String nombre, String contrasenia) {
-	
-		
+
 		Usuario usuario = null;
 
 		try (Connection conexion = ConnectionManager.getConnection();
@@ -96,7 +93,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			pst.setString(1, nombre);
 			pst.setString(2, contrasenia);
 
-			
+			System.out.println("SQL= " + pst);
+
 			try (ResultSet rs = pst.executeQuery()) {
 
 				if (rs.next()) {
@@ -112,6 +110,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 		return usuario;
 	}
+
 	private Usuario mapper(ResultSet rs) throws SQLException {
 
 		Usuario usuario = new Usuario();
@@ -119,8 +118,6 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		usuario.setId(rs.getInt("id"));
 		usuario.setNombre(rs.getString("nombre"));
 		usuario.setContrasenia(rs.getString("contrasenia"));
-		
-		
 
 		return usuario;
 

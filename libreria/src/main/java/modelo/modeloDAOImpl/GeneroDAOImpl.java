@@ -31,9 +31,9 @@ public class GeneroDAOImpl implements GeneroDAO {
 
 	// excuteQuery => ResultSet
 	private final String SQL_GET_ALL = " SELECT id, genero FROM genero ORDER BY genero ASC; ";
-	private final String SQL_GET_ALL_LIBROS = " SELECT " + "g.id'generoId'," + " g.genero'genero'," + "l.id 'idLibro',"
-			+ " l.titulo'tituloLibro' " + "FROM  genero g,libro l " + " where l.genero =g.id "
-			+ "ORDER BY g.genero ASC; ";
+	private final String SQL_GET_ALL_WITH_LIBROS = "SELECT g.id'generoId', " + "g.genero'genero'," + "l.id 'idLibro',"
+			+ "l.titulo'tituloLibro', " + "l.imagen," + "l.precio " + "FROM  genero g," + "libro l "
+			+ "WHERE l.genero =g.id " + "ORDER BY g.genero ASC;";
 
 	@Override
 	public ArrayList<Genero> getAll() {
@@ -58,17 +58,19 @@ public class GeneroDAOImpl implements GeneroDAO {
 	@Override
 	public ArrayList<Genero> getAllLibros() {
 
-		// ArrayList<Genero> registros = new ArrayList<Genero>();
 		// La clave va a ser Integer, con el id de Genero
+
 		HashMap<Integer, Genero> registros = new HashMap<Integer, Genero>();
 
 		try (Connection conexion = ConnectionManager.getConnection();
-				PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL_LIBROS);
+				PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL_WITH_LIBROS);
 				ResultSet rs = pst.executeQuery();) {
 
 			while (rs.next()) {
-				int idGenero = rs.getInt("generoId");
-				Genero g = registros.get("generoId");
+
+				int idGenero = rs.getInt("generoId"); // Key del Hashmap
+				Genero g = registros.get(idGenero);
+
 				if (g == null) {
 					g = new Genero();
 					g.setId(idGenero);
@@ -76,6 +78,9 @@ public class GeneroDAOImpl implements GeneroDAO {
 
 					Libro l = new Libro();
 					l.setId(rs.getInt("idLibro"));
+					l.setTitulo("tituloLibro");
+					l.setImagen("imagen");
+					l.setPrecio(rs.getFloat("precio"));
 
 					// Se recuperamn los libros y se añade uno mas dentro de la categoría.
 					g.getLibros().add(l);
