@@ -75,8 +75,8 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>5.2.4.Final</version>
 		</dependency>
-		
-	
+
+
 
 		<!-- Testing -->
 		<dependency>
@@ -86,7 +86,12 @@
 			<scope>test</scope> <!-- solo se usa para Test, cuando se crea el projecto no se usa esta libreria -->
 		</dependency>
 
-
+		<!-- TRAZAS  -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
 
 	</dependencies>
 
