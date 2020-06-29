@@ -300,7 +300,7 @@ public class LibroDAOImpl implements LibroDAO {
 
 	@Override
 	public ArrayList<Libro> getAllByTitulo(String titulo) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

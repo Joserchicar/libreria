@@ -44,7 +44,7 @@ public class InicioController extends HttpServlet {
 		String paramGenGenero= (request.getParameter("genero") ==null) ?" todos los generos" : request.getParameter("genero");
 		
 		
-		if (TODOS_LOS_GENEROS.contentEquals(paramIdGenero)) {
+		if (TODOS_LOS_GENEROS.equals(paramIdGenero)) {
 			
 			generosConLibros= generoDAO.getAllLibros();
 			libros= null;

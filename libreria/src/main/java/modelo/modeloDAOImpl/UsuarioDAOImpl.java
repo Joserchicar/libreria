@@ -58,26 +58,22 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 	@Override
 	public Usuario getById(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		throw new Exception("Sin implementar de momento");
 	}
 
 	@Override
 	public Usuario delete(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		throw new Exception("Sin implementar de momento");
 	}
 
 	@Override
 	public Usuario insert(Usuario p) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		throw new Exception("Sin implementar de momento");
 	}
 
 	@Override
 	public Usuario update(Usuario p) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		throw new Exception("Sin implementar de momento");
 	}
 
 	@Override

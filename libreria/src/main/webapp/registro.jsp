@@ -30,6 +30,18 @@
 			</div>
 
 			<div class="form-group">
+				<label for="precio">precio:</label> <input type="text" name="precio"
+					id="precio" value="${libro.precio}" class="form-control"
+					placeholder="0.0 €">
+			</div>
+
+			<div class="form-group">
+				<label for="imagen">Imagen:</label> <input type="text" name="imagen"
+					id="imagen" value="${libro.imagen}" class="form-control"
+					placeholder="URL de la imagen (.jpg o .png)">
+			</div>
+
+			<div class="form-group">
 				<select class="custom-select" name="categoria_id">
 					<c:forEach items="${generos}" var="categoria">
 						<option value="${genero.id}"
@@ -37,12 +49,14 @@
 					</c:forEach>
 				</select>
 			</div>
-			
+
 			<br>
 			<button type="submit" value="Guardar" class="btn btn-primary">Submit</button>
 		</form>
-
-
+	</div>
+	<div class="col">
+		<img src="${producto.imagen}" class="img-thumbnail"
+			alt="imagen del producto a modificar">
 	</div>
 
 

@@ -31,8 +31,9 @@ public class GeneroDAOImpl implements GeneroDAO {
 
 	// excuteQuery => ResultSet
 	private final String SQL_GET_ALL = " SELECT id, genero FROM genero ORDER BY genero ASC; ";
-	private final String SQL_GET_ALL_WITH_LIBROS = "SELECT g.id'generoId', " + "g.genero'genero'," + "l.id 'idLibro',"
-			+ "l.titulo'tituloLibro', " + "l.imagen," + "l.precio " + "FROM  genero g," + "libro l "
+	private final String SQL_GET_ALL_WITH_LIBROS = "SELECT g.id'genero_id', " + "g.genero'genero'," + "l.id 'idLibro',"
+			+ "l.titulo'tituloLibro', " + "l.imagen," + "l.precio " 
+			+ "FROM  genero g," + "libro l "
 			+ "WHERE l.genero =g.id " + "ORDER BY g.genero ASC;";
 
 	@Override
@@ -68,7 +69,7 @@ public class GeneroDAOImpl implements GeneroDAO {
 
 			while (rs.next()) {
 
-				int idGenero = rs.getInt("generoId"); // Key del Hashmap
+				int idGenero = rs.getInt("genero_Id"); // Key del Hashmap
 				Genero g = registros.get(idGenero);
 
 				if (g == null) {
@@ -99,7 +100,6 @@ public class GeneroDAOImpl implements GeneroDAO {
 
 	}
 
-	// TODO implementar estos metodos cuando necesitemos
 
 	@Override
 	public Genero getById(int id) throws Exception {

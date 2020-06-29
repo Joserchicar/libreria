@@ -33,16 +33,10 @@
 <title>${param.title}|Libreria</title>
 </head>
 
-<body onload="init()" id="top">
-	<header>
-		<!-- encabezado pagina -->
-		<h1>Libreria</h1>
-
-	</header>
+<body onload="init()">
 
 	<!-- Barra de Navegacion -->
 	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
-
 
 		<!-- icono para desplegar menu en moviles -->
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -58,14 +52,16 @@
 				<li class="nav-item "><a
 					class="nav-link ${ ( 'inicio' eq param.pagina ) ? 'active' : '' }"
 					href="inicio">Inicio</a></li>
+
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 					role="button" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false">generos</a>
+					aria-expanded="false">Generos</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="inicio?idGenero=-1">TODOS</a>
 						<c:forEach items="${generos}" var="genero">
-							<a class="dropdown-item" href="inicio?idGenero=${genero.id}&categoria=${genero.genero}">${genero.genero }
-							</a>
+							<a class="dropdown-item"
+								href="inicio?idGenero=${genero.id}&genero=${genero.genero}">${genero.genero }</a>
 						</c:forEach>
 					</div></li>
 
@@ -79,7 +75,7 @@
 
 					<li class="nav-item"><a
 						class="nav-link ${ ( 'Libros' eq param.pagina ) ? 'active' : '' } "
-						href="libro">Libros</a></li>
+						href="Libro">Libros</a></li>
 					<li class="nav-item"><a
 						class="nav-link ${ ( 'registro' eq param.pagina ) ? 'active' : '' } "
 						href="registro">gestion</a></li>
@@ -106,3 +102,5 @@
 	<br>
 
 	<main role="main" class="container">
+
+		<jsp:include page="alerta.jsp"></jsp:include>

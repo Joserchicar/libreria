@@ -141,7 +141,7 @@ public class RegistroController extends HttpServlet {
 		} catch (SQLException e) {
 
 			 alerta = new Alerta( "danger", "Lo sentimos pero ya existe ese NOMBRE,escribe otro por favor ");
-			request.setAttribute("mensaje", " Lo sentimos pero ya existe ese titulo. Introduzca otro ");
+			//request.setAttribute("mensaje", " Lo sentimos pero ya existe ese titulo. Introduzca otro ");
 			e.printStackTrace();
 		} catch (Exception e) {
 			alerta = new Alerta( "danger", "Lo sentimos pero hemos tenido un ERROR inxesperado ");
