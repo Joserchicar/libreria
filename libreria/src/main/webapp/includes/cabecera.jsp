@@ -58,16 +58,16 @@
 					role="button" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false">Generos</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="inicio?idGenero=-1">TODOS</a>
+						<a class="dropdown-item" href="inicio">TODOS</a>
 						<c:forEach items="${generos}" var="genero">
 							<a class="dropdown-item"
-								href="inicio?idGenero=${genero.id}&genero=${genero.genero}">${genero.genero }</a>
+								href="inicio?idGenero=${genero.id}& genero=${genero.genero}">${genero.genero }</a>
 						</c:forEach>
 					</div></li>
 
 				<li class="nav-item"><a
 					class="nav-link ${ ( 'Libros' eq param.pagina ) ? 'active' : '' }"
-					href="Libro.jsp">Libros</a></li>
+					href="inicio">Libros</a></li>
 
 				<!-- opciones cuando el usuario esta Logeado -->
 
@@ -75,7 +75,7 @@
 
 					<li class="nav-item"><a
 						class="nav-link ${ ( 'Libros' eq param.pagina ) ? 'active' : '' } "
-						href="Libro">Libros</a></li>
+						href="Libro.jsp">Libros</a></li>
 					<li class="nav-item"><a
 						class="nav-link ${ ( 'registro' eq param.pagina ) ? 'active' : '' } "
 						href="registro">gestion</a></li>

@@ -36,7 +36,7 @@ private final static Logger LOG=Logger.getLogger(LibroDAOImpl.class );
 			"titulo , " + 
 			"l.imagen 'imagen'," + 
 			"l.precio 'precio'," + 
-			"g.id  ' genero_id'," + 
+			"g.id  'genero_id'," + 
 			"g.genero 'genero' " + 
 			"FROM libro l,genero g " + 
 			"WHERE l.genero = g.id "+
@@ -47,8 +47,8 @@ private final static Logger LOG=Logger.getLogger(LibroDAOImpl.class );
 			" titulo ," +
 			"l.imagen 'imagen'," + 
 			"l.precio 'precio'," + 
-			" g.id  ' genero_id',"+ 
-			"g.genero ' genero_genero' " +
+			" g.id  'genero_id',"+ 
+			"g.genero 'genero_genero' " +
 			" FROM libro l,genero g " +
 			" WHERE l.genero = g.id "+ 
 			" ORDER BY l.id ASC LIMIT ? ; ";
@@ -58,7 +58,7 @@ private final static Logger LOG=Logger.getLogger(LibroDAOImpl.class );
 			" titulo ," + 
 			"l.imagen 'imagen'," + 
 			"l.precio 'precio'," + 
-			" g.id  ' genero_id',"+
+			" g.id  'genero_id',"+
 			"g.genero 'genero_genero' " + 
 			" FROM libro l,genero g " +
 			" WHERE l.genero = g.id "+
@@ -69,7 +69,7 @@ private final static Logger LOG=Logger.getLogger(LibroDAOImpl.class );
 			" titulo ," + 
 			"l.imagen 'imagen'," + 
 			"l.precio 'precio'," + 
-			"g.id  ' genero_id',"+ 
+			"g.id  'genero_id',"+ 
 			"g.genero 'genero' " +
 			" FROM libro l,genero g " +
 			"WHERE l.genero = g.id AND l.id=? LIMIT 500;";

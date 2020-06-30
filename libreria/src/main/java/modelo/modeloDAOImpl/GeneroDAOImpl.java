@@ -17,7 +17,8 @@ import modelo.pojo.Libro;
 public class GeneroDAOImpl implements GeneroDAO {
 
 	private static GeneroDAOImpl INSTANCE = null;
-	private final static Logger LOG= Logger.getLogger(GeneroDAOImpl.class);
+	private final static Logger LOG = Logger.getLogger(GeneroDAOImpl.class);
+
 	private GeneroDAOImpl() {
 		super();
 	}
@@ -34,9 +35,15 @@ public class GeneroDAOImpl implements GeneroDAO {
 	// excuteQuery => ResultSet
 	private final String SQL_GET_ALL = " SELECT id, genero FROM genero ORDER BY genero ASC; ";
 	private final String SQL_GET_ALL_WITH_LIBROS = "SELECT g.id'genero_id', " + "g.genero'genero'," + "l.id 'idLibro',"
-			+ "l.titulo'tituloLibro', " + "l.imagen," + "l.precio " 
-			+ "FROM  genero g," + "libro l "
+			+ "l.titulo'tituloLibro', " + "l.imagen," + "l.precio " + "FROM  genero g," + "libro l "
 			+ "WHERE l.genero =g.id " + "ORDER BY g.genero ASC;";
+	private final String SQL_GET_BY_ID = " SELECT id, genero FROM genero WHERE id = ?; ";
+
+	// executeUpdate => int affectedRows
+
+	private final String SQL_INSERT = " INSERT INTO genero ( genero ) VALUES ( ? ) ; ";
+	private final String SQL_UPDATE = " UPDATE genero SET genero = ?  WHERE id = ? ; ";
+	private final String SQL_DELETE = " DELETE FROM genero WHERE id = ? ; ";
 
 	@Override
 	public ArrayList<Genero> getAll() {
@@ -52,11 +59,9 @@ public class GeneroDAOImpl implements GeneroDAO {
 				registros.add(mapper(rs));
 			} // while
 
-			
-			
 		} catch (Exception e) {
 			LOG.error(e);
-			
+
 		}
 		return registros;
 
@@ -90,7 +95,7 @@ public class GeneroDAOImpl implements GeneroDAO {
 					l.setImagen("imagen");
 					l.setPrecio(rs.getFloat("precio"));
 
-					// Se recuperamn los libros y se añade uno mas dentro de la categoría.
+					// Se recuperan los libros y se añade uno mas dentro de la categoría.
 					g.getLibros().add(l);
 
 					// Guardar en el HashMap la categoría .
@@ -101,27 +106,89 @@ public class GeneroDAOImpl implements GeneroDAO {
 			} // while
 
 		} catch (Exception e) {
-			
+
 			LOG.error(e);
-			
+
 		}
 		return new ArrayList<Genero>(registros.values());
 
 	}
 
-
 	@Override
 	public Genero getById(int id) throws Exception {
-		throw new Exception("Sin implementar de momento");
+
+		Genero registro = new Genero();
+
+		try (Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_GET_BY_ID);) {
+
+			pst.setInt(1, id);
+			LOG.debug(pst);
+			ResultSet rs = pst.executeQuery();
+
+			if (rs.next()) {
+				registro = mapper(rs);
+
+			} else {
+				throw new Exception("No se puede encontrar registro con id=" + id);
+			}
+
+			return registro;
+
+		}
+
 	}
 
 	@Override
 	public Genero delete(int id) throws Exception {
-		throw new Exception("Sin implementar de momento");
+
+		Genero genero = null;
+
+		try (Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_DELETE);) {
+			// recuperar antes de eliminar
+			genero = getById(id);
+
+			// eliminar
+			pst.setInt(1, id);
+			LOG.debug(pst);
+			pst.executeUpdate();
+
+		}
+
+		return genero;
+
 	}
 
 	@Override
-	public Genero insert(Genero pojo) throws Exception {
+	public Genero insert(Genero genero) throws Exception {
+		
+		try(
+				Connection conexion = ConnectionManager.getConnection();	
+				PreparedStatement pst = conexion.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);				
+			){
+		
+				pst.setString(1, genero.getGenero() );			
+				LOG.debug(pst);
+				
+				int affectedRows = pst.executeUpdate();			
+				if ( affectedRows == 1 ) {					
+					try( ResultSet rsKeys = pst.getGeneratedKeys() ){						
+						if ( rsKeys.next() ) {
+							int id = rsKeys.getInt(1);
+							pojo.setId(id);
+						}						
+					}				
+					
+			}else {				
+				throw new Exception("No se ha podido guardar el registro " + pojo );
+			}
+		}
+		
+		return pojo;
+		
+		
+		
 		throw new Exception("Sin implementar de momento");
 	}
 
