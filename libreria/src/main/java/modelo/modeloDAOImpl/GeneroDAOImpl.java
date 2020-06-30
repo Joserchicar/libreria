@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import modelo.conexion.ConnectionManager;
 import modelo.modeloDAO.GeneroDAO;
 import modelo.pojo.Genero;
@@ -15,7 +17,7 @@ import modelo.pojo.Libro;
 public class GeneroDAOImpl implements GeneroDAO {
 
 	private static GeneroDAOImpl INSTANCE = null;
-
+	private final static Logger LOG= Logger.getLogger(GeneroDAOImpl.class);
 	private GeneroDAOImpl() {
 		super();
 	}
@@ -45,12 +47,16 @@ public class GeneroDAOImpl implements GeneroDAO {
 				PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL);
 				ResultSet rs = pst.executeQuery();) {
 
+			LOG.debug(pst);
 			while (rs.next()) {
 				registros.add(mapper(rs));
 			} // while
 
+			
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
+			
 		}
 		return registros;
 
@@ -67,6 +73,7 @@ public class GeneroDAOImpl implements GeneroDAO {
 				PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL_WITH_LIBROS);
 				ResultSet rs = pst.executeQuery();) {
 
+			LOG.debug(pst);
 			while (rs.next()) {
 
 				int idGenero = rs.getInt("genero_Id"); // Key del Hashmap
@@ -94,7 +101,9 @@ public class GeneroDAOImpl implements GeneroDAO {
 			} // while
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
+			LOG.error(e);
+			
 		}
 		return new ArrayList<Genero>(registros.values());
 

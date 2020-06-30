@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import modelo.conexion.ConnectionManager;
 import modelo.modeloDAO.UsuarioDAO;
 import modelo.pojo.Usuario;
@@ -14,6 +16,7 @@ import java.sql.SQLException;
 
 public class UsuarioDAOImpl implements UsuarioDAO {
 
+	private static final Logger LOG = Logger.getLogger(UsuarioDAOImpl.class);
 	private static UsuarioDAOImpl INSTANCE = null;
 
 	// executequery=>ResultSet
@@ -42,7 +45,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 				PreparedStatement pst = conexion.prepareStatement(SQL_GET_ALL);
 				ResultSet rs = pst.executeQuery();) {
 
-			System.out.println("SQL= " + pst);
+			LOG.debug(pst);
 
 			while (rs.next()) {
 				usuarios.add(mapper(rs));
@@ -50,7 +53,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error(e);
+
 		}
 
 		return usuarios;
@@ -88,8 +92,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 			pst.setString(1, nombre);
 			pst.setString(2, contrasenia);
-
-			System.out.println("SQL= " + pst);
+			LOG.debug(pst);
 
 			try (ResultSet rs = pst.executeQuery()) {
 
@@ -101,7 +104,9 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			} // try
 
 		} catch (Exception e) {
-			e.printStackTrace();
+
+			LOG.error(e);
+
 		}
 
 		return usuario;

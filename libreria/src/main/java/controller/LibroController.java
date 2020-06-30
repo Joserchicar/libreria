@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import modelo.modeloDAOImpl.LibroDAOImpl;
 import modelo.pojo.Libro;
 
@@ -17,6 +19,7 @@ import modelo.pojo.Libro;
  */
 @WebServlet("/Libro")
 public class LibroController extends HttpServlet {
+	private static final Logger LOG=Logger.getLogger(LibroController.class);
 	private static final long serialVersionUID = 1L;
 
 
@@ -36,8 +39,9 @@ public class LibroController extends HttpServlet {
 		try {
 			libros = dao.getAll();
 		} catch (Exception e) {
-
-			e.printStackTrace();
+			
+			LOG.error(e);
+			
 		}
 		// obtengo los datos para enviar a la vista
 		request.setAttribute("libros", libros);

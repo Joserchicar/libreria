@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 
 import modelo.conexion.ConnectionManager;
 import modelo.modeloDAO.LibroDAO;
@@ -15,7 +16,7 @@ import modelo.pojo.Libro;
 public class LibroDAOImpl implements LibroDAO {
 
 	private static LibroDAOImpl INSTANCE = null;
-
+private final static Logger LOG=Logger.getLogger(LibroDAOImpl.class );
 	private LibroDAOImpl() {
 		super();
 	}
@@ -90,6 +91,7 @@ public class LibroDAOImpl implements LibroDAO {
 				ResultSet rs = pst.executeQuery();
 
 		) {
+			LOG.debug(pst);
 			while (rs.next()) {
 
 				// guardar en lista
@@ -98,9 +100,8 @@ public class LibroDAOImpl implements LibroDAO {
 			} // while
 
 		} catch (Exception e) {
-
-			e.printStackTrace();
-
+			LOG.error(e);
+			
 		}
 
 		return registros;
@@ -115,13 +116,17 @@ public class LibroDAOImpl implements LibroDAO {
 			pst.setInt(1, numReg);
 			System.out.println("SQL_GET_LAST:"+ pst);
 			try (ResultSet rs = pst.executeQuery()) {
+				
+				LOG.debug(pst);
 				while (rs.next()) {
 					registros.add(mapper(rs));
 				}
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
+			LOG.error(e);
+			
 		}
 		return registros;
 	}
@@ -137,13 +142,16 @@ public class LibroDAOImpl implements LibroDAO {
 			pst.setInt(1, idGenero);
 			pst.setInt(2, numReg);
 			try (ResultSet rs = pst.executeQuery()) {
-
+				
+				LOG.debug(pst);
 				while (rs.next())
 					registros.add(mapper(rs));
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			
+			LOG.error(e);
+			
 		}
 
 		return registros;
@@ -160,6 +168,8 @@ public class LibroDAOImpl implements LibroDAO {
 		) {
 
 			pst.setInt(1, id);
+			LOG.debug(pst);
+			
 			ResultSet rs = pst.executeQuery();
 
 			if (rs.next()) {
@@ -188,6 +198,8 @@ public class LibroDAOImpl implements LibroDAO {
 		) {
 
 			pst.setInt(1, id);
+			LOG.debug(pst);
+			
 			int affectedRows = pst.executeUpdate();
 
 			if (affectedRows != 1) {
@@ -215,7 +227,7 @@ public class LibroDAOImpl implements LibroDAO {
 			pst.setFloat(2, libro.getPrecio() );
 			pst.setString(3, libro.getImagen() );
 			pst.setInt(4, libro.getGenero().getId());
-
+			LOG.debug(pst);
 			int affectedRows = pst.executeUpdate();
 
 			if (affectedRows == 1) {
@@ -260,7 +272,7 @@ public class LibroDAOImpl implements LibroDAO {
 			pst.setFloat(3, libro.getPrecio());
 			pst.setInt(3, libro.getGenero().getId());
 			pst.setInt(5, libro.getId());
-
+			LOG.debug(pst);
 			int affectedRows = pst.executeUpdate();
 
 			if (affectedRows != 1) {

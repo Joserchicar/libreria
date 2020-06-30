@@ -13,7 +13,6 @@ import modelo.modeloDAO.UsuarioDAO;
 import modelo.modeloDAOImpl.UsuarioDAOImpl;
 import modelo.pojo.Usuario;
 
-
 /**
  * Servlet implementation class LoginController
  */
@@ -21,14 +20,13 @@ import modelo.pojo.Usuario;
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -38,29 +36,24 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		String nombre = request.getParameter("nombre");
 		String contrasenia = request.getParameter("contrasenia");
 
-
 		HttpSession session = request.getSession();
-		
 
 		UsuarioDAOImpl dao = UsuarioDAOImpl.getInstance();
-		 Usuario usuario = dao.existe(nombre, contrasenia);
+		Usuario usuario = dao.existe(nombre, contrasenia);
 
 		if (usuario != null) {
 
 			session.setMaxInactiveInterval(60 * 5); // 5 minutos sin peticiones, se invalida la session del usuario
 			session.setAttribute("usuario_login", usuario);
 
-			
 			request.setAttribute("alerta", new Alerta("success", " Estas Logeado"));
-			
+
 			request.getRequestDispatcher("index.jsp").forward(request, response);
-			
-			
-			
+
 		} else {
 
 			request.setAttribute("alerta", new Alerta("warning", "Credenciales Incorrectas"));

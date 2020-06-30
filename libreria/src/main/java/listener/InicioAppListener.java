@@ -5,6 +5,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import org.apache.log4j.Logger;
+
 import controller.Alerta;
 import modelo.modeloDAOImpl.GeneroDAOImpl;
 import modelo.pojo.Genero;
@@ -16,6 +18,7 @@ import modelo.pojo.Genero;
 @WebListener
 public class InicioAppListener implements ServletContextListener {
 
+	private final static Logger LOG=Logger.getLogger(InicioAppListener.class);
 	static private final GeneroDAOImpl generoDAO = GeneroDAOImpl.getInstance();
 
 	/**
@@ -23,6 +26,8 @@ public class InicioAppListener implements ServletContextListener {
 	 */
 	public void contextDestroyed(ServletContextEvent sce) {
 		// cuando paramos la App
+		
+		LOG.info("Apagando Servidor");
 	}
 
 	/**
@@ -30,7 +35,7 @@ public class InicioAppListener implements ServletContextListener {
 	 */
 	public void contextInitialized(ServletContextEvent sce) {
 		// cuando ejecutamos la App en el Servidor, al arrancar la 1º vez
-		System.out.println("Estamos arrancado la App, y soy un evento");
+		LOG.info("Estamos arrancado la App, y soy un evento");
 
 		// Este contexto es para toda la Aplicacion y es accesible desde cualñquier JSP
 		// o Servlet
@@ -41,12 +46,8 @@ public class InicioAppListener implements ServletContextListener {
 			contextoAplicacion.setAttribute("categorias", generoDAO.getAll());
 
 		} catch (Exception e) {
-
-			e.printStackTrace();
-
+			LOG.fatal(e);
 			contextoAplicacion.setAttribute("alerta", new Alerta("danger", "Tenemos un problema sin determinar"));
 		}
-
 	}
-
 }

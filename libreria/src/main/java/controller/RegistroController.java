@@ -19,6 +19,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.log4j.Logger;
+
 import modelo.modeloDAOImpl.GeneroDAOImpl;
 import modelo.modeloDAOImpl.LibroDAOImpl;
 import modelo.pojo.Genero;
@@ -30,6 +32,7 @@ import modelo.pojo.Libro;
 @WebServlet("/registro")
 public class RegistroController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final Logger LOG = Logger.getLogger(RegistroController.class);
 
 	private static LibroDAOImpl daoLibro = LibroDAOImpl.getInstance();
 	private static GeneroDAOImpl daoGenero = GeneroDAOImpl.getInstance();
@@ -58,8 +61,8 @@ public class RegistroController extends HttpServlet {
 			request.setAttribute("libro", libro);
 
 		} catch (Exception e) {
+			LOG.error(e);
 			request.setAttribute("danger", "Lo sentimos fallo en GET " + e.getMessage());
-			e.printStackTrace();
 
 		} finally {
 
@@ -79,7 +82,7 @@ public class RegistroController extends HttpServlet {
 			throws ServletException, IOException {
 		// Crear objeto
 
-		Alerta alerta=new Alerta();
+		Alerta alerta = new Alerta();
 		Libro libro = new Libro();
 
 		try {
@@ -125,7 +128,7 @@ public class RegistroController extends HttpServlet {
 
 				} // if
 
-				alerta= new Alerta("success", "Libro registrado");
+				alerta = new Alerta("success", "Libro registrado");
 			} else { // Si hay errores de validacion
 
 				String errores = "";
@@ -134,19 +137,18 @@ public class RegistroController extends HttpServlet {
 					errores += "<p><b>" + v.getPropertyPath() + "</b>:" + v.getMessage() + "</p>";
 
 				}
-				alerta= new Alerta("danger",errores);
-				
+				alerta = new Alerta("danger", errores);
+
 			}
 
 		} catch (SQLException e) {
+			LOG.error(e);
+			alerta = new Alerta("danger", "Lo sentimos pero ya existe ese NOMBRE,escribe otro por favor ");
 
-			 alerta = new Alerta( "danger", "Lo sentimos pero ya existe ese NOMBRE,escribe otro por favor ");
-			//request.setAttribute("mensaje", " Lo sentimos pero ya existe ese titulo. Introduzca otro ");
-			e.printStackTrace();
 		} catch (Exception e) {
-			alerta = new Alerta( "danger", "Lo sentimos pero hemos tenido un ERROR inxesperado ");
-			//request.setAttribute("mensaje", " Lo sentimos pero hemos tenido una Excepcion " + e.getMessage());
-			e.printStackTrace();
+			LOG.error(e);
+			alerta = new Alerta("danger", "Lo sentimos pero hemos tenido un ERROR inxesperado ");
+
 		} finally {
 
 			// Enviar datos a la vista

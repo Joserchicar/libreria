@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import modelo.modeloDAOImpl.LibroDAOImpl;
 import modelo.pojo.Libro;
 
@@ -15,8 +17,10 @@ import modelo.pojo.Libro;
  */
 @WebServlet("/EliminarLibro")
 public class EliminarLibroController extends HttpServlet {
+	
+	private final static Logger LOG=Logger.getLogger(EliminarLibroController.class);
 	private static final long serialVersionUID = 1L;
-       
+   
    
 
 	/**
@@ -39,7 +43,8 @@ public class EliminarLibroController extends HttpServlet {
 			
 		} catch (Exception e) {
 			mensaje = "Error " + e.getMessage();
-			e.printStackTrace();
+			LOG.error(e);
+			
 		}finally {
 			
 			
