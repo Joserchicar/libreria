@@ -5,16 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-
-
 import modelo.Libro;
 import modelo.conexion.ConnectionManager;
 
 public class LibroDAOImpl implements LibroDAO {
 
+	String sql = "SELECT id, titulo,precio,descuento FROM libro ORDER BY id DESC;";
+	String SQL_INSERT = " INSERT INTO libro (nombre, precio , descuento ) VALUES ( ? , ?, ? ) ; ";
+
 	private static LibroDAOImpl INSTANCE = null;
 
-	private LibroDAOImpl() {
+	public LibroDAOImpl() {
 		super();
 	}
 
@@ -32,7 +33,7 @@ public class LibroDAOImpl implements LibroDAO {
 		ArrayList<Libro> registros = new ArrayList<Libro>();
 
 		// Execute Query
-		String sql = "SELECT id, titulo FROM libro ORDER BY id DESC;";
+
 		try (Connection conexion = ConnectionManager.getConnection();
 				PreparedStatement pst = conexion.prepareStatement(sql);
 				ResultSet rs = pst.executeQuery();
@@ -42,12 +43,16 @@ public class LibroDAOImpl implements LibroDAO {
 				// recuperamos columnas del rs(resultSet)
 				int id = rs.getInt("id");
 				String titulo = rs.getString("titulo");
+				float precio = rs.getFloat("precio");
+				int descuento = rs.getInt("descuento");
 
 				// Creamos el objeto con lo obtenido en rs
 
 				Libro libro = new Libro();
 				libro.setId(id);
 				libro.setTitulo(titulo);
+				libro.setPrecio(precio);
+				libro.setDescuento(descuento);
 
 				// guardar en lista
 				registros.add(libro);
@@ -76,9 +81,38 @@ public class LibroDAOImpl implements LibroDAO {
 	}
 
 	@Override
-	public Libro insert(Libro p) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Libro insert(Libro l) throws Exception {
+		try (Connection conexion = ConnectionManager.getConnection();
+				PreparedStatement pst = conexion.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
+
+		) {
+
+			pst.setString(1, l.getTitulo());
+			pst.setFloat(2, l.getPrecio());
+			pst.setInt(3, l.getDescuento());
+
+			int affectedRows = pst.executeUpdate();
+
+			if (affectedRows == 1) {
+
+				// conseguir el ID
+
+				try (ResultSet rsKeys = pst.getGeneratedKeys()) {
+
+					if (rsKeys.next()) {
+						int id = rsKeys.getInt(1);
+						l.setId(id);
+					}
+
+				}
+
+			} else {
+				throw new Exception("No se ha podido guardar el registro " + l);
+			}
+
+		}
+
+		return l;
 	}
 
 	@Override
@@ -93,4 +127,3 @@ public class LibroDAOImpl implements LibroDAO {
 		return null;
 	}
 }
-	

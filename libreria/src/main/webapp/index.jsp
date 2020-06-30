@@ -35,7 +35,8 @@
 				<tr>
 					<td>Id</td>
 					<td>Titulo</td>
-
+					<td>precio</td>
+					<td>descuento</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -43,7 +44,8 @@
 					<tr>
 						<td>${l.id}</td>
 						<td>${l.titulo}</td>
-
+						<td>${l.precio}</td>
+						<td>${l.descuento}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
