@@ -1,27 +1,18 @@
 package modelo.pojo;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class Usuario {
 	private int id;
-
-	@NotBlank(message = "Escribe el nombre del usuario")
-	@NotEmpty
 	private String nombre;
-
-	@NotBlank(message = "Escribe la contrasenia")
-	@NotEmpty
-	private String contrasenia;
-
+	private String contrasenia;	
+	private Rol rol;
 	
 	public Usuario() {
 		super();
 		this.id = 0;
 		this.nombre = "";
 		this.contrasenia = "";
-		
-
+		this.rol = new Rol();
 	}
 
 	public int getId() {
@@ -48,10 +39,17 @@ public class Usuario {
 		this.contrasenia = contrasenia;
 	}
 
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", contrasenia=" + contrasenia + "]";
+	public Rol getRol() {
+		return rol;
 	}
 
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", contrasenia=" + contrasenia + ", rol=" + rol + "]";
+	}
 
 }

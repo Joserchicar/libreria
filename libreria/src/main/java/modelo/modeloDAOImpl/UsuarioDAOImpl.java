@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 
 import modelo.conexion.ConnectionManager;
 import modelo.modeloDAO.UsuarioDAO;
+import modelo.pojo.Rol;
 import modelo.pojo.Usuario;
 
 import java.sql.DriverManager;
@@ -20,8 +21,15 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	private static UsuarioDAOImpl INSTANCE = null;
 
 	// executequery=>ResultSet
-	static final String SQL_GET_ALL = " SELECT id,nombre, contrasenia FROM usuario ORDER BY id DESC LIMIT 500; ";
-	static final String SQL_EXISTE = " SELECT id, nombre, contrasenia FROM usuario  WHERE nombre = ? AND contrasenia = ? ; ";
+	static final String SQL_GET_ALL = " SELECT u.id, u.nombre, contrasenia, id_rol, r.nombre AS 'nombre_rol' "
+			+ "FROM usuario AS u "
+			+ "INNER JOIN rol AS r ON u.id_rol = r.id "
+			+ "ORDER BY u.id DESC LIMIT 500 ;";
+	
+	static final String SQL_EXISTE = " SELECT u.id, u.nombre, contrasenia, id_rol, r.nombre AS 'nombre_rol' "
+			+ "FROM usuario AS u "
+			+ "INNER JOIN rol AS r ON u.id_rol = r.id "
+			+ "WHERE u.nombre = ? AND contrasenia = ? ; ";
 
 	private UsuarioDAOImpl() {
 		super();
@@ -120,7 +128,23 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		usuario.setNombre(rs.getString("nombre"));
 		usuario.setContrasenia(rs.getString("contrasenia"));
 
+		//rol
+				Rol rol = new Rol();
+				rol.setId(rs.getInt("id_rol"));
+				rol.setNombre(rs.getString("nombre_rol"));
+				
+				// setear el rol al usuario
+				usuario.setRol(rol);
+				
+	
+		
 		return usuario;
 
+	}
+
+	@Override
+	public ArrayList<Usuario> getAllByNombre(String palabraBuscada) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
